@@ -206,7 +206,65 @@
       transform: translate(-50%, -50%);
       pointer-events: none;
     }
+    /* =========================================
+               VERSION PARA CELULAR (RESPONSIVE)
+               Esto solo se activa si la pantalla es pequeña
+               ========================================= */
+    @media only screen and (max-width: 600px) {
 
+      /* 1. Ajustamos el ancho general para que no se salga */
+      section {
+        max-width: 100%; /* Ocupa todo el ancho del cel */
+        padding: 15px;
+      }
+
+      /* 2. El Título principal más chico */
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      /* 3. LAS FOTOS EN CELULAR */
+      /* En celular, 3 fotos horizontales se ven muy chicas.
+         Aquí las ponemos una debajo de otra para que se vean GRANDES y bonitas */
+      .photo-container {
+        flex-direction: column; /* Cambia a columna */
+        height: auto;
+      }
+
+      .photo-card {
+        width: 100%; /* Que ocupe todo el ancho */
+        margin-bottom: 20px;
+      }
+
+      .photo-card img {
+        height: auto; /* Altura automática para que no se deforme */
+        max-height: 400px;
+      }
+
+      /* 4. ARREGLAMOS EL SOBRE (Para que quepa en la pantalla) */
+      .envelope-wrapper {
+        width: 280px;  /* Más angosto que el de laptop (400px) */
+        height: 180px; /* Más bajito */
+      }
+
+      .letter {
+        width: 260px;  /* Ajustamos la carta al nuevo sobre */
+        height: 160px;
+        font-size: 0.9rem; /* Letra un poco más chica */
+        padding: 10px;
+      }
+
+      /* Cuando la carta sale del sobre en celular */
+      .envelope-wrapper.open .letter {
+        height: 350px; /* Que crezca bastante para leer */
+        transform: translateY(-80px); /* Que suba un poco menos */
+      }
+
+      /* Ajustamos la lluvia de corazones para que no tape el texto */
+      .heart-rain {
+        font-size: 15px; /* Corazones un poco más chicos */
+      }
+    }
   </style>
 </head>
 <body>
