@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feliz Cumpleaños Mi Amor</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #0a0005;
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+      /* Inicia oculto el scroll, se activa en la Fase 5 */
+      overflow-y: hidden;
+    }
+
+    /* --- FASE 1, 2, 3 y 4 (Intro y Corazón) --- */
+    #pantalla-intro {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #cargando-container { font-size: 2em; color: #ffb6c1; animation: parpadeoMovimiento 1.5s infinite; z-index: 20; }
+    @keyframes parpadeoMovimiento { 0% { transform: translateX(-30px); opacity: 0; } 50% { transform: translateX(0); opacity: 1; } 100% { transform: translateX(30px); opacity: 0; } }
+
+    #cuenta-container { display: none; text-align: center; z-index: 20; }
+    #numero-cuenta { font-size: 8em; color: #d81b60; margin: 0; text-shadow: 0 0 20px #d81b60; }
+    #texto-cuenta { font-size: 1.5em; color: #ffb6c1; margin-top: 10px; font-style: italic; }
+
+    #corazon-container { display: none; position: absolute; width: 100vw; height: 100vh; justify-content: center; align-items: center; z-index: 1; }
+    .corazon-svg { width: 90vmin; height: 90vmin; max-width: 800px; max-height: 800px; filter: drop-shadow(0 0 20px #ff0055); transform-origin: center; }
+    .corazon-path { fill: transparent; stroke: #ff0055; stroke-width: 2; stroke-dasharray: 400; stroke-dashoffset: 400; }
+
+    .dibujar-corazon { animation: soldarCorazon 7s ease-in-out forwards; }
+    .latir-corazon { animation: latido 1.2s infinite alternate; }
+    @keyframes soldarCorazon { 0% { stroke-dashoffset: 400; } 100% { stroke-dashoffset: 0; fill: rgba(255, 0, 85, 0.15); } }
+    @keyframes latido { 0% { transform: scale(1); filter: drop-shadow(0 0 20px #ff0055); } 100% { transform: scale(1.08); filter: drop-shadow(0 0 35px #ff0055); } }
+
+    #textos-container { display: none; position: absolute; width: 100%; height: 100%; justify-content: center; align-items: center; z-index: 10; }
+    .texto-3d { position: absolute; text-align: center; width: 70vmin; font-size: 8vmin; font-weight: bold; color: white; text-shadow: 2px 2px 0 #d81b60, 4px 4px 0 #ff69b4, 0 0 20px #ff0055; opacity: 0; word-wrap: break-word; }
+    @keyframes aparecerYDesaparecer { 0% { opacity: 0; filter: blur(15px); transform: scale(0.5); } 20% { opacity: 1; filter: blur(0px); transform: scale(1); } 80% { opacity: 1; filter: blur(0px); transform: scale(1); } 100% { opacity: 0; filter: blur(15px); transform: scale(1.5); } }
+
+
+    /* --- FASE 5: LA LÍNEA DE TIEMPO MUSICAL --- */
+    #seccion-timeline {
+      display: none; /* Se activa cuando termina la intro */
+      padding: 50px 20px 150px 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .fila-cancion {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 100px;
+      gap: 30px;
+      opacity: 0.9;
+      transition: transform 0.3s;
+    }
+
+    /* Clase clave para el Zigzag */
+    .fila-cancion.reverso {
+      flex-direction: row-reverse;
+    }
+
+    .cancion-foto { flex: 1; text-align: center; }
+    .cancion-foto img {
+      width: 100%;
+      max-width: 350px;
+      border-radius: 15px;
+      border: 3px solid #ff69b4;
+      box-shadow: 0 0 15px rgba(216, 27, 96, 0.5);
+    }
+
+    .cancion-info { flex: 1; text-align: left; }
+    .reverso .cancion-info { text-align: right; }
+
+    .cancion-info h3 { color: #ffb6c1; font-size: 1.8em; margin-bottom: 10px; }
+    .cancion-info p { color: #ddd; font-size: 1.1em; line-height: 1.6; font-style: italic; }
+
+    audio {
+      width: 100%;
+      margin-top: 15px;
+      outline: none;
+      border-radius: 25px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+
+    /* Responsive: En celular todo se pone uno debajo del otro */
+    @media (max-width: 768px) {
+      .fila-cancion, .fila-cancion.reverso { flex-direction: column; text-align: center; margin-bottom: 70px; }
+      .cancion-info, .reverso .cancion-info { text-align: center; }
+    }
+
+    /* --- EL FINAL: Letrero Neón Malogrado --- */
+    .neon-final {
+      text-align: center;
+      font-size: 5em;
+      font-weight: bold;
+      color: #ffe6ea;
+      margin-top: 50px;
+      font-family: 'Courier New', Courier, monospace;
+      animation: neonRoto 3s infinite;
+    }
+
+    @keyframes neonRoto {
+      0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow: 0 0 10px #ff0055, 0 0 20px #ff0055, 0 0 40px #d81b60, 0 0 80px #d81b60;
+        opacity: 1;
+      }
+      20%, 24%, 55% {
+        text-shadow: none;
+        opacity: 0.3; /* No desaparece por completo, solo baja su luz */
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="pantalla-intro">
+  <div id="cargando-container">Cargando...</div>
+  <div id="cuenta-container">
+    <h1 id="numero-cuenta">10</h1>
+    <p id="texto-cuenta">Iniciando sorpresa...</p>
+  </div>
+  <div id="corazon-container">
+    <svg class="corazon-svg" viewBox="0 0 100 100">
+      <path class="corazon-path" id="trazo-corazon" d="M 50,85 C 50,85 10,55 10,30 C 10,15 25,5 40,15 C 50,25 50,25 50,25 C 50,25 50,25 60,15 C 75,5 90,15 90,30 C 90,55 50,85 50,85 Z"></path>
+    </svg>
+  </div>
+  <div id="textos-container">
+    <div class="texto-3d" id="texto1">Amor Mío</div>
+    <div class="texto-3d" id="texto2">Te Amo</div>
+    <div class="texto-3d" id="texto3" style="font-size: 5.5vmin;">Espero te guste lo que preparé</div>
+    <div class="texto-3d" id="texto4" style="font-size: 6vmin;">Feliz Cumpleaños Mi Amor</div>
+  </div>
+</div>
+
+<div id="seccion-timeline">
+
+  <div class="fila-cancion">
+    <div class="cancion-foto">
+      <img src="img/LesMiSuerte.jpg" alt="Recuerdo 1">
+    </div>
+    <div class="cancion-info">
+      <h3>Mi Suerte - Morat</h3>
+      <p>
+        "Quiero empezar por nuestra canción, Mi Suerte, es simplemente nuestra canción. Nuestro Himno, la canción que representa mucho lo que nos amamos, la suerte
+        que tuvimos al encontrarnos, la suerte que usamos en encontrarnos, y como dice la canción: "Aunque no pueda verte", pues nos vemos por fotos, por todas las
+        demás cosas que tenemos juntos, nos vemos en nuestros corazones, aunque estemos lejos, aquí seguimos y seguiremos siempre, pues simplemente quiero que estemos juntos
+        toda la vida porque nuestra suerte de encontrarnos y coincidir en este mundo, entre tantas personas, estamos juntos tú y yo, y siempre lo estaremos porque
+        es nuestra suerte, y es la mejor de las suertes encontrarte a ti, sencillamente, la mejor de las suertes, encontrarnos ❤️."
+      </p>
+      <audio class="reproductor" controls>
+        <source src="cns/MiSuerte_Morat.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="fila-cancion reverso">
+    <div class="cancion-foto">
+      <img src="img/LesFavorito.jpg" alt="Recuerdo 2">
+    </div>
+    <div class="cancion-info">
+      <h3>Favorito - Camilo</h3>
+      <p>
+        "Simplemente, eres mi lugar favorito, mi lugar seguro, somos lo que ambos necesitamos, nos queremos mutuamente y asi viaje todo el mundo o este donde este
+        mi lugar favorito siempre serás tú, porque eres la persona que más amo, más quiero y que más adoro, eres mi vida entera, me encanta como pasamos tiempo juntos,
+        es mi momento favorito del día, asi nos escribamos por WhatsApp, hagamos llamada, veamos algo o juguemos, cualquier cosa, son mis cosas favoritas, porque
+        simplemente, estas tu ahi, y quiero que siempre lo estes ❤️."
+      </p>
+      <audio class="reproductor" controls>
+        <source src="cns/Favorito_Camilo.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="fila-cancion">
+    <div class="cancion-foto">
+      <img src="img/LesNoHayNadieMas.jpg" alt="Recuerdo 1">
+    </div>
+    <div class="cancion-info">
+      <h3>No Hay Nadie Más - Sebastián Yatra</h3>
+      <p>
+        "Recuerdo aquel día..., como si fuera hoy..., ese 28 de agosto del 2024. Aquel día que nos conocimos y empezó nuestra linda historia, la cúal creo yo, ya estaba
+        escrita. "Voy a cuidarte por las noches..., Voy a amarte sin reproches..., Te voy a extrañar en la tempestad..., Y aunque existan mill razones para renunciar...,
+        No Hay Nadie Más...", con esto quiero decirte que sencillamente eres la mujer que quiero, la chica de mi vida, y aunque tengamos nuestras diferencias, siempre
+        intentaremos solucianarlas porque no me imagino una vida que no sea contigo, No hay ni habrá nadie más porque yo Te Amo, Te Amo Amor Mío ❤️."
+      </p>
+      <audio class="reproductor" controls>
+        <source src="cns/NoHayNadieMas_SebastianYatra.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="fila-cancion reverso">
+    <div class="cancion-foto">
+      <img src="img/LesBenditaTuLuz.jpg" alt="Recuerdo 2">
+    </div>
+    <div class="cancion-info">
+      <h3>Bendita Tu Luz - Maná</h3>
+      <p>"Una de las canciones que más me gustan, pues describe que fue el momento correcto, fue bendito el momento, el reloj y más que la coincidencia, el destino
+        que nos juntó, que estamos aquí, que todo se dio como se debió darse, y como dice la canción: "De encontrarte justo ahi, en medio del camino" y "Coincidir en mi
+        destino, en el mismo destino", de seguro será una de las canciones que te haga llorar, y escúchala completa porque es toda tuya, Tu Canción Mi Amor ❤️."</p>
+      <audio class="reproductor" controls>
+        <source src="cns/BenditaTuLuz_Maná.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="fila-cancion">
+    <div class="cancion-foto">
+      <img src="img/LesPorEsoTeAmo.jpg" alt="Recuerdo 1">
+    </div>
+    <div class="cancion-info">
+      <h3>Por Eso Te Amo - Río Roma</h3>
+      <p>"Una de las canciones que describen muchas cosas, pues eres más de lo que pude haber soñado, eres la mujer que amo, que me gusta y que me hace sentir
+        más seguro del amor que ambos sentimos, no dudo de este amor porque en ti tengo todo, Te amo tal y como eres, porque como dije desde el principio, acepto
+        términos y condiciones, Te amo porque me aceptas como soy, porque mejoramos cada día como pareja, Por eso Te Amo, por eso y por muchas cosas más, Te Amo ❤️."</p>
+      <audio class="reproductor" controls>
+        <source src="cns/PorEsoTeAmo_RioRoma.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="fila-cancion reverso">
+    <div class="cancion-foto">
+      <img src="img/LesColgandoEnTusManos.jpg" alt="Recuerdo 2">
+    </div>
+    <div class="cancion-info">
+      <h3>Colgando en tus Manos - Carlos Baute</h3>
+      <p>"Quizá no fue coincidencia encontrarme contigo..., tal vez esto lo hizo el destino..., esta es una de las canciones en donde te quiero decir que me tienes
+        colgando en tus manos, mi corazón está colgando en tus manos, pues confió en que lo cuidaras y puedo ser yo mismo, puedo sentirme vulnerable y sé que contigo
+        no debo ser siempre fuerte, pues me ayudas y apoyas en todos los momentos, estas conmigo en los buenos y sobre todo en los malos momentos, y me encanta
+        porque ambos nos apoyamos siempre mi amor, juntos en las buenas y en las malas ❤️.️"</p>
+      <audio class="reproductor" controls>
+        <source src="cns/ColgandoEnTusManos_CarlosBaute.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="fila-cancion">
+    <div class="cancion-foto">
+      <img src="img/LesTeEncontre.jpg" alt="Recuerdo 1">
+    </div>
+    <div class="cancion-info">
+      <h3>Te Encontré - Lil Silvio & El Vega</h3>
+      <p>"Una de las canciones con las que más me identificó, pues como dice la canción: "Te encontré, ya encontré la mujer que por tanto tiempo había esperado...",
+        pues nos conocimos por obra del destino y nos encontramos en el camino, pues me haces sentir el dueño del mundo porque tú eres mi mundo. "Ella es, y ella es,
+        y ella es..., REALMENTE EL AMOR DE MI VIDA...", una frase que desde te conoci, no me he sacado de la cabeza que quiero que seas y serás la mujer de mi vida ❤️."</p>
+      <audio class="reproductor" controls>
+        <source src="cns/TeEncontre_ElVega.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="fila-cancion reverso">
+    <div class="cancion-foto">
+      <img src="img/LesLaMelodia.jpg" alt="Recuerdo 2">
+    </div>
+    <div class="cancion-info">
+      <h3>La Melodía - Joey Montana</h3>
+      <p>"La melodía que le da un ritmo hermoso a mi vida, la nota que le faltaba a mi corazón para ser feliz, esa persona eres tú, pues contigo, "No pienso en los días,
+        los detalles, contigo todo es sol, playa y arena, Tú eres tan perfecta para mí", pues nos complementamos muy bien, somos una pareja bonita y fuerte, y contigo
+        todo es bonito, es risas, buenos momentos, y aunque se presenten malos momentos, los superamos como la pareja que somos y es lo que me encanta, ademas de que
+        ambos ponemos de nuestra parte para que esta melodía de nuestra relación sea armonica, bonita y feliz ❤️."</p>
+      <audio class="reproductor" controls>
+        <source src="cns/LaMelodia_JoeyMontana.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="fila-cancion">
+    <div class="cancion-foto">
+      <img src="img/LesTienesLaMagia.jpg" alt="Recuerdo 1">
+    </div>
+    <div class="cancion-info">
+      <h3>Tienes La Magia - Lil Silvio & El Vega</h3>
+      <p>"En esta canción quiero describir la magia que tienes, esa magia tan linda de tu voz, tu carita, tus ojos, tu boca, tus labios, tu cabello, y simplemente todo
+        de ti lo que me enamora y hechizas mi corazón pues, te amo con todo mi ser, y también esa magia linda que tiene nuestra relación, pues es más seria, más bonita
+        y ambos tenemos las mismas ganas de un futuro juntos, y si me pregunta: "¿Esto a quien se lo escribí?, a la mujer de mis sueños", y esa mujer eres tú,
+        el amor de todas mis vidas ❤️."</p>
+      <audio class="reproductor" controls>
+        <source src="cns/TienesLaMagia_ElSilvio.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="fila-cancion reverso">
+    <div class="cancion-foto">
+      <img src="img/LesMeVoyEnamorando.jpg" alt="Recuerdo 2">
+    </div>
+    <div class="cancion-info">
+      <h3>Me Voy Enamorando - Chino y Nacho</h3>
+      <p>"Esta canción representa como de ti me fui enamorando, pues con tu sonrisa me convertiste que a donde tú me digas voy, y que hay un lugar muy especial
+        donde quisiera que estemos juntos y me respondas con un "Sí, acepto", y si ves el video en YouTube, podras ver porque también esta cancion es tan especial
+        para mí, y siempre agradecere que apareciste en ese momento de mi vida ❤️."</p>
+      <audio class="reproductor" controls>
+        <source src="cns/MeVoyEnamorando_ChinoYNacho.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="fila-cancion">
+    <div class="cancion-foto">
+      <img src="img/LesOjitosLindos.jpg" alt="Recuerdo 1">
+    </div>
+    <div class="cancion-info">
+      <h3>Ojitos Lindos - Bad Bunny</h3>
+      <p>"Simplemente, tus ojitos lindos, hermosos y bellos que desde que los mire, me enamore de ti, y me siguen enamorando todos los días de mi vida, y con que solo
+        me mires, yo estoy bien, porque nos encontramos en el trayecto y solo mírame con tus ojitos lindos, pues como tú no hay ni habrá otra persona, yo solo quiero
+        que seas tú, pues lo único que me puede convencer de algo es tu sonrisa y tus ojitos lindos, ya que no hace falta nadie aquí, solo tú y yo ❤️."</p>
+      <audio class="reproductor" controls>
+        <source src="cns/OjitosLindos_BadBunny.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="fila-cancion reverso">
+    <div class="cancion-foto">
+      <img src="img/LesBaileInolvidable.jpg" alt="Recuerdo 2">
+    </div>
+    <div class="cancion-info">
+      <h3>Baile Inolvidable - Bad Bunny</h3>
+      <p>"Nuestra canción, pues ambos somos nuestro Baile Inolvidable, ya que hemos pasado por muchas cosas, bonitas y malas, sí, pero nuestro amor no se olvidara ya qué
+        ambos queremos estar juntos siempre, esta es nuestra canción porque nuestra relación está marcada por un baile de nuestros corazones, a kilómetros
+        de distancia, pero latiendo y bailando al mismo ritmo, amándonos todos y cada uno de los días de nuestras vidas ❤️."</p>
+      <audio class="reproductor" controls>
+        <source src="cns/BaileInolvidable_BadBunny.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="fila-cancion">
+    <div class="cancion-foto">
+      <img src="img/LesADondeVamos.jpg" alt="Recuerdo 1">
+    </div>
+    <div class="cancion-info">
+      <h3>A Dónde Vamos - Morat</h3>
+      <p>"Lo unico que quiero es que a pesar de no se lo que pase en nuestras vidas, estemos y sigamos juntos, pues desde el inicio, desde que nos conocimos, como
+        dice la cancion: "Siendo un extraño, te dije te amo..., Te he estado buscando por más de mil años..., Y tú respondiste: ¿A Dónde Vamos?", pues
+        somos la prueba de que existe el amor a primera vista, ya que nuestra historia no estaba prevista, pero si estaba escrita porque el destino hizo que nos
+        conocieramos y tu respondiste: ¿A Dónde Vamos? ❤️."</p>
+      <audio class="reproductor" controls>
+        <source src="cns/ADondeVamos_Morat.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="fila-cancion reverso">
+    <div class="cancion-foto">
+      <img src="img/LesVolviANacer.jpg" alt="Recuerdo 2">
+    </div>
+    <div class="cancion-info">
+      <h3>Volví A Nacer - Carlos Vives</h3>
+      <p>"En esta canción quiero decirte que gracias a ti, literalmente volvi a nacer, porque llegaste en el momento justo y te amo por eso, porque fue el momento
+        correcto y quiero morir en tus brazos, por eso quiero casarme contigo, quiero que tengamos una hermosa vida juntos y estar juntos siempre porque siempre sere
+        tu fiel chofer de nuestras vidas, ya que somos un gran equipo, por eso te pido que sigamos siempre juntos, cumplamos nuestros sueños y cumplir uno de nuestros
+        más grandes sueños, Casarnos ❤️."</p>
+      <audio class="reproductor" controls>
+        <source src="cns/VolviANacer_CarlosVives.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="fila-cancion">
+    <div class="cancion-foto">
+      <img src="img/LesNuestroSueño.jpg" alt="Recuerdo 1">
+    </div>
+    <div class="cancion-info">
+      <h3>Nuestro Sueño - Grupo Niche</h3>
+      <p>"La canción que me hace recordarte, en el sentido de todos los sueños que queremos cumplir, y sé que con nuestro apoyo y esfuerzo de ambos podremos lograrlo,
+        si una mirada bastó, para empezar nuestro sueño, nuestra relación, imagina lo que seremos capaces de lograr, solo te pregunto: "¿A Dónde Vamos?, ¿Cuándo Vendrás?,
+        pues sé que vendrás, a cumplir nuestro sueño, a hacerlo una realidad, ambos iremos, juntos de la mano, a cumplir nuestros sueños, juntos, pues no me cansaré
+        de esperarte, no descansaré, no desmayaré, hasta que por fin pueda verte ❤️."</p>
+      <audio class="reproductor" controls>
+        <source src="cns/NuestroSueño_GrupoNiche.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="fila-cancion reverso">
+    <div class="cancion-foto">
+      <img src="img/LesAmame.jpg" alt="Recuerdo 2">
+    </div>
+    <div class="cancion-info">
+      <h3>Ámame - El Gran Combo de Puerto Rico</h3>
+      <p>"Una canción que me encanta mucho, pues solo pido que me ames, ámame siempre, quiéreme, bésame, abrázame, que quiero que me ames toda la vida, pues yo te amo
+        y siempre te voy a amar, solo quiero que nos amemos toda la vida como si fuera el primer día, que ambos pongamos de nuestra parte para que este amor sea eterno,
+        porque nos amamos, nos amaremos siempre, por eso te digo, te amo y solo te pido: Ámame, Ámame toda la vida ❤️."</p>
+      <audio class="reproductor" controls>
+        <source src="cns/Amame_ElGranComboDePuertoRico.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="fila-cancion">
+    <div class="cancion-foto">
+      <img src="img/LesValioLaPena.jpg" alt="Recuerdo 1">
+    </div>
+    <div class="cancion-info">
+      <h3>Valió La Pena - Marc Anthony</h3>
+      <p>"En esta canción quiero decirte que no me arrepiento de nada, y que valió la pena perder el miedo, nerviosismo y tener la valentía para poder escribirte, y valió
+        la pena que me respondieras, valió la pena todos y cada uno de los momentos que hemos pasado, pues todos esos momentos nos han llevado hasta aca, a ser una pareja,
+        a ser enamorados, y a pesar de todo, valió la pena, pues estamos bien, mejor y más fuertes como los enamorados que somos, valieron la pena los malos, pero sobre todo
+        los buenos momentos, ya que a pesar de todo, vale la pena seguir aqui porque quiero que seas la mujer de todas mis vidas, hoy, mañana y siempre. Como dije, de nada
+        me arrepiento pues, eres y serás la mujer de todas mis vidas ❤️."</p>
+      <audio class="reproductor" controls>
+        <source src="cns/ValioLaPena_MarcAnthony.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="fila-cancion reverso">
+    <div class="cancion-foto">
+      <img src="img/LesTuYYo.jpg" alt="Recuerdo 2">
+    </div>
+    <div class="cancion-info">
+      <h3>Tú y Yo - La Misma Gente</h3>
+      <p>"Una canción que describe como solo necesitamos ser tú y yo, para ser una familia unida y feliz, que con el tiempo pueda ir creciendo, pues digo que nunca
+        dudes que te amo, ya que no importa la distancia a la que estemos siempre tendré ganas de besarte, una y mil veces. Con el tiempo poder seguir juntos y poder
+        decir: Tu y Yo, Por siempre Tú y Yo, nunca dudes mi cariño, quiéreme, quiéreme por siempre, ámame, pues yo solo soy de ti y quiero ser de ti, pues no puedo
+        vivir sin ti, quiéreme, quiéreme, quiéreme que tuyo siempre sere. Siempre solos Tú y Yo ❤️."</p>
+      <audio class="reproductor" controls>
+        <source src="cns/TuyYo_LaMismaGente.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="fila-cancion">
+    <div class="cancion-foto">
+      <img src="img/LesIdilio.jpg" alt="Recuerdo 1">
+    </div>
+    <div class="cancion-info">
+      <h3>Idilio - Willie Colón</h3>
+      <p>"Una de las muchas canciones que quiero que bailemos, cantemos y vivamos juntos, siendo felices juntos, pues ambos queremos que se cumpla nuestro idilio
+        de amor y a besos levantarte todos los días, y que se fundan en una sola tu alma y la mía. Que se fundan en un abrazo eterno, en un idilio de amor. Pues
+        sueño contigo que se cumpla nuestro idilio de amor, estando juntos, viviendo juntos y siendo una familia bonita, unida y feliz, Mi Amor ❤️."</p>
+      <audio class="reproductor" controls>
+        <source src="cns/Idilio_WillieColon.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+
+  <div class="fila-cancion reverso">
+    <div class="cancion-foto">
+      <img src="img/LesAmorDeVago.jpg" alt="Recuerdo 1">
+    </div>
+    <div class="cancion-info">
+      <h3>Amor De Vago - La T y La M</h3>
+      <p>"Sé que es un cambio drastico de género musical, pero quiero que escuches esta cancion, pues me encanto mucho, ya que habla de un beso, ese beso que te
+        quiero dar, que nos demos un beso de vago, de esos que tienen muchas ganas de amar, de esos que representan todo el amor que sentimos, un beso en el
+        que se sienta y se vea nuestro amor, un beso que venga acompañado de abrazos y muchas ganas de amar, un beso despacio en el cual podamos decir:
+        "Por fin mi amor..., Por fin juntos...", llorando ambos y dandonos un besito, un beso con todo el amor del mundo ❤️."</p>
+      <audio class="reproductor" controls>
+        <source src="cns/AmorDeVago_LaTyLaM.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="fila-cancion ">
+    <div class="cancion-foto">
+      <img src="img/LesPorPrimeraVez.jpg" alt="Recuerdo 2">
+    </div>
+    <div class="cancion-info">
+      <h3>Por Primera Vez - Camilo</h3>
+      <p>"Una canción que tal vez te emocione demasiado, pero creo que es una de las mejores representaciones de lo que podemos lograr a hacer, pues ambos sabemos que
+        volveríamos a esperar una y mil veces para poder tener un amanecer bonito, pues mi vida es vida solo contigo, ya que contigo le he encontrado sentido, unos
+        sueños por cumplir y eres lo que necesito, tener nuestro amor demostrado al mundo, nuestras familias unidas, viviendo ese gran sueño, de ser esposos oficiales
+        y siendo mucho más felices juntos ❤️."</p>
+      <audio class="reproductor" controls>
+        <source src="cns/PorPrimeraVez_Camilo.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="fila-cancion reverso">
+    <div class="cancion-foto">
+      <img src="img/LesEres.jpg" alt="Recuerdo 2">
+    </div>
+    <div class="cancion-info">
+      <h3>Eres - Café Tacvba</h3>
+      <p>"Una canción muy bonita en la que te digo que eres mi todo, mi pensamiento constante, ya que eres lo que más quiero en este mundo, eso eres. Eres y serás la
+        mujer de mi vida, la mujer que quiero que sea la madre de mis hijos, la chica con la que quiero cumplir mis sueños, la chica con la me quiero casar. Estaré
+        siempre a tu lado y quiero que tú lo estes al mío siempre, pues lo que yo mas amo en este mundo, eso Eres ❤️."</p>
+      <audio class="reproductor" controls>
+        <source src="cns/Eres_CafeTacvba.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="fila-cancion">
+    <div class="cancion-foto">
+      <img src="img/LesTeVoyAAmar.jpg" alt="Recuerdo 1">
+    </div>
+    <div class="cancion-info">
+      <h3>Te Voy A Amar - Axel</h3>
+      <p>"En esta canción, quiero que sepas que daria todo por tu amor, no sé cómo explicarte con palabras lo que siento por ti, pues te voy a amar siempre, y hacerte sentir
+        que te elijo todos y cada uno de mis días, ya que nuestro amor siempre será mutuo, ambos nos amamos y por eso quiero que mi vida entera sea junto a ti, pues
+        junto a ti siento paz, tranquilidad y seguridad de que seremos solo tú y yo, pues te voy a amar, hoy, mañana y siempre, Amor Mío ❤️."</p>
+      <audio class="reproductor" controls>
+        <source src="cns/TeVoyAAmar_Axel.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="fila-cancion reverso">
+    <div class="cancion-foto">
+      <img src="img/LesMiVidaEntera.jpg" alt="Recuerdo 2">
+    </div>
+    <div class="cancion-info">
+      <h3>Mi Vida Entera - Morat</h3>
+      <p>
+        Tal vez en este punto ya estés emocionada, llorando Mi Amor Jaja. Pues, puedo hacerte una pregunta: ¿Y si bailamos? ¿Tan solo bailamos?
+
+        Espero que todo lo que he hecho te haya gustado, sabes como dije que eres Mi Vida Entera, y no podía culminar la sorpresa sin tu canción,
+        ya que empezamos celebrando la Suerte de habernos encontrado y
+        decidimos caminar sin importar A Dónde Vamos, y esta canción es la representación para decirte que te entrego Mi Vida Entera.
+
+        Con esta canción quiero que sepas que no es solo una canción, sino que es la manera de decirte que quiero que esta canción dure toda la vida, que estemos
+        juntos siempre, pues como dije eres la mujer de mi vida, quiero que sea asi siempre, que solo seamos tú y yo, tengamos nuestro baile inolvidable, mientras
+        miro tus ojitos lindos, ya que desde que te encontré, no hay nadie más para mí, pues tienes la magia que me hizo volver a nacer. Es tan bendita tu luz que
+        hoy me alegro por mi suerte que siento que vivimos nuestro sueño, cumpliendo nuestro idilio que está colgando de nuestras manos, te pido: ámame, que yo
+        te voy a amar todos los días de mi vida como si fuera la primera vez, pues tú eres mi lugar favorito y seguro, ya que cada día me voy enamorando más, ya que
+        siento que estamos en una melodia perfecta, superando cada mal momento que pasamos, ahora sé que valió la pena, pues podemos hacer crecer aún más este amor de
+        vagos, tan leal y sincero. Sin importar a donde vamos, si al final no te parece tan loco, si lo piensas, dame todo, dame todo, di que Sí, ya que te entrego
+        Mi Vida Entera.
+        Te Amo ❤️."</p>
+      <audio class="reproductor" controls>
+        <source src="cns/MiVidaEntera_Morat.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <div class="neon-final">Te Amo ❤️</div>
+
+</div>
+
+<script>
+  // --- LOGICA DE LA INTRODUCCIÓN ---
+  const frasesCuenta = [
+    "Para mi niña bonita...", "Que ilumina mis días...", "Con esa sonrisa perfecta...",
+    "Hoy celebramos tu vida...", "Agradezco tenerte conmigo...", "Eres mi persona favorita...",
+    "Mi reina hermosa...", "Prepárate...", "Cierra los ojos...", "Te Amooooooooo ❤️."
+  ];
+
+  setTimeout(() => {
+    document.getElementById('cargando-container').style.display = 'none';
+    document.getElementById('cuenta-container').style.display = 'block';
+
+    let numero = 10;
+    const numeroUI = document.getElementById('numero-cuenta');
+    const textoUI = document.getElementById('texto-cuenta');
+    textoUI.innerText = frasesCuenta[10 - numero];
+
+    const intervalo = setInterval(() => {
+      numero--;
+      if(numero > 0) {
+        numeroUI.innerText = numero;
+        textoUI.innerText = frasesCuenta[10 - numero];
+      } else {
+        clearInterval(intervalo);
+        iniciarFaseCorazon();
+      }
+    }, 1500);
+  }, 5000);
+
+  function iniciarFaseCorazon() {
+    document.getElementById('cuenta-container').style.display = 'none';
+    document.getElementById('corazon-container').style.display = 'flex';
+    document.getElementById('trazo-corazon').classList.add('dibujar-corazon');
+
+    setTimeout(() => {
+      document.querySelector('.corazon-svg').classList.add('latir-corazon');
+      iniciarFaseTextos();
+    }, 7000);
+  }
+
+  function iniciarFaseTextos() {
+    document.getElementById('textos-container').style.display = 'flex';
+    const textos = ['texto1', 'texto2', 'texto3', 'texto4'];
+    let retraso = 0;
+
+    textos.forEach((id) => {
+      setTimeout(() => { document.getElementById(id).style.animation = "aparecerYDesaparecer 3.5s forwards"; }, retraso);
+      retraso += 3500;
+    });
+
+    // Al terminar el último texto, lanzamos la Fase 5
+    setTimeout(() => {
+      iniciarLineaDeTiempo();
+    }, retraso + 500);
+  }
+
+  // --- LÓGICA DE LA LÍNEA DE TIEMPO (SCROLL Y AUDIO) ---
+  function iniciarLineaDeTiempo() {
+    const timeline = document.getElementById('seccion-timeline');
+    timeline.style.display = 'block';
+    document.body.style.overflowY = 'auto'; // Permitimos el scroll en la página
+
+    // 1. Efecto de barrido: Baja rápido para mostrarle que hay más cosas
+    setTimeout(() => {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+
+      // 2. Vuelve a subir al inicio después de 2 segundos en el fondo
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 2500);
+
+    }, 1000);
+
+    // --- LÓGICA DE LA LÍNEA DE TIEMPO Y AUTO-SCROLL CONTINUO ---
+    let scrollAutomatico; // Variable para controlar el movimiento lento
+
+    function iniciarLineaDeTiempo() {
+      const timeline = document.getElementById('seccion-timeline');
+      const intro = document.getElementById('pantalla-intro');
+
+      // Mostramos la línea de tiempo y borramos la intro
+      timeline.style.display = 'block';
+      intro.style.display = 'none';
+
+      // Liberamos la página para que se pueda mover
+      document.body.style.overflowY = 'auto';
+      document.documentElement.style.overflowY = 'auto';
+
+      // 1. Barrido rápido hacia abajo
+      setTimeout(() => {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+
+        // 2. Vuelve a subir al principio (le damos 6 segundos para que logre bajar todo)
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+
+          // 3. ¡LA MAGIA! Espera 1.5 segundos arriba y empieza a bajar solita, lento y continuo
+          setTimeout(() => {
+            iniciarBajadaContinua();
+          }, 1500);
+
+        }, 6000);
+
+      }, 500);
+
+      // 4. Control de la música vs. el movimiento de la página
+      const reproductores = document.querySelectorAll('.reproductor');
+      reproductores.forEach(audio => {
+
+        // Si ella le da PLAY: Se detiene la página y centra la canción
+        audio.addEventListener('play', function() {
+          detenerBajadaContinua(); // Frenamos la página
+
+          // Pausamos las demás canciones para que no suenen dos a la vez
+          reproductores.forEach(otroAudio => {
+            if(otroAudio !== audio) otroAudio.pause();
+          });
+
+          // Centramos la vista en esa canción
+          this.closest('.fila-cancion').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+
+        // Si le da PAUSE o la canción TERMINA: La página vuelve a bajar solita
+        audio.addEventListener('pause', iniciarBajadaContinua);
+        audio.addEventListener('ended', iniciarBajadaContinua);
+      });
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2 Meses Juntos</title>
+  <style>
+    /* Estilos base rosados */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fff0f3; /* Un rosado aún más clarito para variar */
+      color: #4a154b;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    .btn-volver {
+      display: inline-block;
+      margin-bottom: 20px;
+      padding: 10px 20px;
+      background-color: #ffb6c1;
+      color: #4a154b;
+      text-decoration: none;
+      border-radius: 20px;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+    .btn-volver:hover {
+      background-color: #ff9fb8;
+    }
+
+    /* Contenedor de la Ruleta */
+    .razones-container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(216, 27, 96, 0.2);
+      max-width: 500px;
+      margin: 0 auto 40px auto;
+      border: 2px solid #ff9fb8;
+    }
+    .btn-razon {
+      background-color: #d81b60;
+      color: white;
+      border: none;
+      padding: 15px 25px;
+      border-radius: 25px;
+      font-size: 1.1em;
+      cursor: pointer;
+      transition: transform 0.2s;
+      font-weight: bold;
+    }
+    .btn-razon:hover {
+      transform: scale(1.05);
+    }
+    #texto-razon {
+      margin-top: 20px;
+      font-size: 1.2em;
+      font-style: italic;
+      min-height: 60px;
+      color: #d81b60;
+    }
+
+    /* Timeline de Fotos (Lado a Lado) */
+    .timeline {
+      max-width: 800px; /* Un poco más ancho para que quepa todo */
+      margin: 0 auto;
+      border-left: 4px solid #ff69b4;
+      padding-left: 30px; /* Más espacio para los puntos */
+      position: relative;
+    }
+    .evento {
+      margin-bottom: 50px;
+      position: relative;
+      display: flex; /* ¡Aquí está la magia! */
+      align-items: center; /* Centra verticalmente texto y foto */
+      justify-content: space-between; /* Separa texto de foto */
+      gap: 20px; /* Espacio entre el texto y la foto */
+    }
+
+    /* El puntito rosa en la línea del tiempo */
+    .evento::before {
+      content: '';
+      position: absolute;
+      left: -39px; /* Ajustado para la nueva padding-left */
+      top: 20px; /* Alineado con el inicio del texto */
+      width: 16px;
+      height: 16px;
+      background-color: #d81b60;
+      border-radius: 50%;
+      z-index: 1; /* Para que esté sobre la línea */
+    }
+
+    /* Contenedor del Texto (Izquierda) */
+    .evento-texto {
+      flex: 1; /* Ocupa el espacio disponible */
+      text-align: left;
+    }
+    .evento-texto h3 {
+      margin-top: 0;
+      color: #d81b60;
+      font-size: 1.4em;
+    }
+    .evento-texto p {
+      margin-bottom: 0;
+      color: #666; /* Un gris suave para el texto */
+    }
+
+    /* Contenedor de la Foto (Derecha) */
+    .evento-foto {
+      flex: 0 0 45%; /* La foto ocupa un 45% del ancho fijo */
+      max-width: 300px; /* Pero no más de 300px */
+    }
+    .evento-foto img {
+      width: 100%;
+      height: auto; /* Mantiene la proporción */
+      border-radius: 15px;
+      border: 3px solid #ffb6c1;
+      box-shadow: 0 6px 12px rgba(216, 27, 96, 0.2);
+      transition: transform 0.3s;
+    }
+    .evento-foto img:hover {
+      transform: scale(1.03); /* Un pequeño efecto al pasar el mouse */
+    }
+
+    /* Responsive: Para celulares (pantallas de menos de 600px) */
+    @media (max-width: 600px) {
+      .evento {
+        flex-direction: column; /* Se ponen uno debajo del otro */
+        align-items: flex-start; /* Alinea a la izquierda */
+        gap: 10px;
+      }
+      .evento-foto {
+        flex: 1; /* Ocupa todo el ancho */
+        max-width: 100%;
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<a href="index.html" class="btn-volver">⬅ Volver al Menú</a>
+
+<h1 style="color: #d81b60;">¡Felices 2 Meses!</h1>
+<p>60 días a tu lado, y esto es solo el comienzo.</p>
+
+<div class="razones-container">
+  <h2>La Ruleta de las 60 Razones</h2>
+  <p>Presiona el botón para descubrir una razón por la que me encantas.</p>
+  <button class="btn-razon" onclick="mostrarRazon()">Descubrir Razón 💖</button>
+  <p id="texto-razon">...</p>
+</div>
+
+<h2 style="color: #d81b60; margin-top: 40px;">Nuestros Momentos</h2>
+<div class="timeline">
+
+  <div class="evento">
+    <div class="evento-texto">
+      <h3>Nuestra Primera Foto Juntos</h3>
+      <p>
+        Nuestra primera foto donde estamos juntos, tú y yo, abrazados, siendo felices, definitivamente uno de los mejores momentos de mi vida,
+        pues me encanto la foto y como nos vemos muy felices estando juntos y sé que asi será, hoy, mañana y siempre, siendo felices estando juntos
+        siendo esposos y sobre todo siendo una familia ❤️.
+      </p>
+    </div>
+    <div class="evento-foto">
+      <img src="img/LesYSergio.png" alt="Un lindo recuerdo juntos">
+    </div>
+  </div>
+
+  <div class="evento">
+    <div class="evento-texto">
+      <h3>Siempre juntos, siendo los mejores</h3>
+      <p>Tal vez puede ser una foto cualquiera, pero para mí me gusta, ya que es una de las  representaciones que cuando estamos juntos,
+      somos y seremos los mejores, la mejor pareja del mundo ❤️.</p>
+    </div>
+    <div class="evento-foto">
+      <img src="img/LesLosMejores.png" alt="Un lindo recuerdo juntos">    </div>
+  </div>
+
+  <div class="evento">
+    <div class="evento-texto">
+      <h3>Siempre siendo ganadores</h3>
+      <p>A pesar de que es en el juego, pues sabes que es donde practicamente empezó nuestra linda historia, que cuando hacemos algo
+        en equipo, todo saldrá siempre porque estamos y estaremos juntos ❤️.</p>
+    </div>
+    <div class="evento-foto">
+      <img src="img/LesFree2.png" alt="Un lindo recuerdo juntos">    </div>
+  </div>
+
+  <div class="evento">
+    <div class="evento-texto">
+      <h3>Una de mis fotos favoritas</h3>
+      <p>Una de las fotos que más me gustan, ya que sabes mi fanatismo, y quien es mi jugador de fútbol favorito, me encanta
+        que lo sepas y me aceptes, que te emocione cuando te cuento algo con respecto al fútbol, aunque tal vez no sepas lo que digo,
+        pero me gusta que me acompañes y sobre todo que hayas hecho esta foto, porque para mi eres eso, Mi Champions, Mi Mundial,
+        Mi Balón de Oro, Mi Todo, Te Amo❤️.</p>
+    </div>
+    <div class="evento-foto">
+      <img src="img/LesChampions.png" alt="Un lindo recuerdo juntos">    </div>
+  </div>
+
+  <div class="evento">
+    <div class="evento-texto">
+      <h3>Nosotros Relajados</h3>
+      <p>Aunque sea en el juego, esta foto me gusta, pues estamos relajados, en el juego, en la vida, en todo, ya que juntos, sentimos
+        tranquilidad y paz, me imagino que asi estaremos cuando estemos juntos, viviendo en nuestra casita y siendo una familia muy
+        feliz, fotos siendo felices siempre ❤️.</p>
+    </div>
+    <div class="evento-foto">
+      <img src="img/LesRelajados.png" alt="Un lindo recuerdo juntos">    </div>
+  </div>
+
+  <div class="evento">
+    <div class="evento-texto">
+      <h3>Nuestro Triunfo</h3>
+      <p>Una de las fotos donde podemos ver que somos ganadores en todos los sentidos, en el juego, en la vida, en la pareja que somos,
+        en tenernos, pues todo lo que conlleve estar juntos, son los mejores momentos de nuestras vidas ❤️.</p>
+    </div>
+    <div class="evento-foto">
+      <img src="img/LesFree3.png" alt="Un lindo recuerdo juntos">    </div>
+  </div>
+
+  <div class="evento">
+    <div class="evento-texto">
+      <h3>Un Vínculo Inquebrantable</h3>
+      <p>Aunque sea en el juego, esta foto me gusta, pues estamos relajados, en el juego, en la vida, en todo, ya que juntos, sentimos
+        tranquilidad y paz, me imagino que asi estaremos cuando estemos juntos, viviendo en nuestra casita y siendo una familia muy
+        feliz, fotos siendo felices siempre ❤️.</p>
+    </div>
+    <div class="evento-foto">
+      <img src="img/LesFDT.png" alt="Un lindo recuerdo juntos">    </div>
+  </div>
+
+  <div class="evento">
+    <div class="evento-texto">
+      <h3>Nuestro Sueño</h3>
+      <p>Uno de los momentos que mas anhelo, tener a nuestra bebé juntos, nuestra, de nosotros, definitifvamente es mi foto favorita,
+        pues me emocione mucho cuando vi esta foto, me encanto todo, lo bonita que te ves, el futuro que quiero contigo y todo lo que
+        soñamos juntos, tener nuestra familia feliz, unida y sobre todo con amor, con el amor que nos tenemos y siempre estaremos juntos.
+        Lo que soñamos, sé nos dará, con fe todo se podrá, somos enamorados y todos y cada de los momentos que pasamos juntos, son mis
+        favoritos, Te Amo, Amor Mío❤️.</p>
+    </div>
+    <div class="evento-foto">
+      <img src="img/LesHija.png" alt="Un lindo recuerdo juntos">    </div>
+  </div>
+
+
+
+</div>
+
+<script>
+  // Aquí adentro pones las 60 razones. Te dejé 10 de ejemplo.
+  const razones = [
+    "Tu sonrisa que me alegra los días más pesados.",
+    "La profundidad de tu mirada, donde siento que pertenezco.",
+    "Que mi corazón siempre descanse en ti, aunque no pueda rodearte con mis brazos.",
+    "Lo mucho que me divierto hablando contigo.",
+    "Ese talento oculto que tienes para hacerme reír.",
+    "Que siempre estás ahí para apoyarme.",
+    "El brillo de tus ojos.",
+    "Tus mensajitos que me cambian el humor.",
+    "Que tengas una esencia tan única que la amo con todo mi corazón.",
+    "Porque desde que llegaste, mi manera de entender el amor cambió.",
+    "Tu risa que me contagia felicidad.",
+    "La manera en que dices mi nombre y como nos tratamos con amor.",
+    "La manera en que tu existencia le dio otro sentido a la mía.",
+    "Tu paciencia conmigo incluso en mis días raros.",
+    "Que incluso en la distancia, sigues siendo mi lugar seguro.", // 15
+    "Que confíes en mí.",
+    "La forma en que tu amor me alcanza, sin importar los kilómetros.", // 17
+    "Que siempre encuentres la forma de sacarme una sonrisa.",
+    "Lo natural que eres siendo tú.",
+    "Tu energía que me motiva.",
+    "La manera en que me sorprendes.",
+    "Tu sinceridad.",
+    "Que respetes mis sueños y mi fanatismo.",
+    "La forma en que encajamos tan bien.",
+    "Tus bromas incluso cuando no tienen sentido.",
+    "Que recuerdes cosas pequeñas sobre mí.",
+    "Tu forma de demostrar cariño.",
+    "Cómo haces que el tiempo pase volando.",
+    "Tus palabras cuando más las necesito.",
+    "La seguridad que me das.",
+    "Tu lado sensible.",
+    "Tu fortaleza en momentos difíciles.",
+    "La confianza que construimos juntos.",
+    "Que la distancia nunca haya sido más fuerte que lo que sentimos.", // 34
+    "Que aunque no pueda tocarte, te siento conmigo en todo momento.", // 35
+    "Que podamos hablar de todo.",
+    "Tu creatividad y forma de pensar e idear cosas.",
+    "La esperanza constante de algun día abrazarte.", // 38
+    "Que seas mi persona favorita.",
+    "Que cada día lejos de ti reafirma lo mucho que te amo.", // 40
+    "Tus sueños tan grandes.",
+    "La certeza de que lo nuestro vale cualquier espera.", // 42
+    "Que me incluyas en tus planes.",
+    "Que mi corazón siempre encuentre el camino hacia ti.", // 44
+    "Que me hagas sentir especial.",
+    "Tu forma de cuidarme.",
+    "La dulzura de tus mensajes de buenos días.",
+    "Cómo me entiendes sin que diga nada.",
+    "Tu apoyo incondicional.",
+    "Que siempre seas auténtica.",
+    "Tu forma de hacer que todo parezca más fácil.",
+    "Que nuestro amor haya aprendido a resistirlo todo.", // 52
+    "Tu manera de emocionarte por cosas pequeñas.",
+    "La química que tenemos.",
+    "Que seas mi calma en medio del caos.",
+    "Tu forma de motivarme cuando quiero rendirme.",
+    "Que me hagas sentir orgulloso de estar contigo.",
+    "Tu amor que se siente verdadero.",
+    "La historia tan bonita que estamos construyendo.",
+    "Y simplemente, porque eres tú y nadie más podría serlo."
+  ];
+
+  function mostrarRazon() {
+    // Elige un número al azar basado en la cantidad de razones que haya
+    const indiceAleatorio = Math.floor(Math.random() * razones.length);
+    const textoElemento = document.getElementById("texto-razon");
+
+    // Muestra la razón en la pantalla
+    textoElemento.innerHTML = "✨ " + razones[indiceAleatorio] + " ✨";
+  }
+</script>
+</body>
+</html>

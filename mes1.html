@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para mi Señorita Enamorada ❤️</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;500&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+      font-family: 'Poppins', sans-serif;
+      color: #4a4a4a;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Pacifico', cursive;
+      color: #e91e63;
+      text-align: center;
+    }
+
+    section {
+      padding: 2rem;
+      max-width: 750px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .heart-rain {
+      position: fixed;
+      top: -10px;
+      font-size: 20px;
+      color: #ff0000;
+      user-select: none;
+      pointer-events: none;
+      z-index: 1000;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .hero {
+      height: 60vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #ffe6e6;
+      margin-bottom: 2rem;
+      border-radius: 0 0 50% 50% / 20px;
+    }
+
+    .message-box {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      margin: 1rem;
+    }
+
+
+    .music-player {
+      background: #fff0f5;
+      padding: 1.5rem;
+      border-radius: 15px;
+      margin: 2rem auto;
+      border: 2px dashed #e91e63;
+    }
+
+    audio {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+
+    .photo-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 3rem 0;
+    }
+
+    .photo-card {
+      background: white;
+      padding: 8px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+
+      width: 32%;
+      min-width: 0;
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .photo-card p {
+      font-size: 0.8rem;
+      margin-top: 5px;
+    }
+
+    .photo-card:hover {
+      transform: scale(1.03);
+      z-index: 5;
+    }
+
+    .surprise-section {
+      background: #fff;
+      padding: 3rem 1rem;
+      margin-top: 3rem;
+      border-top: 5px solid #e91e63;
+    }
+
+    .dates {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .date-item {
+      background: #ffe6e6;
+      padding: 1rem;
+      border-radius: 10px;
+      margin: 10px;
+      min-width: 200px;
+    }
+
+    .envelope-wrapper {
+      position: relative;
+      width: 400px;
+      height: 260px;
+      margin: 50px auto;
+      cursor: pointer;
+    }
+
+    .envelope {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #ff5252;
+      border-radius: 0 0 10px 10px;
+      z-index: 2;
+    }
+
+    .flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #ff1744;
+      clip-path: polygon(0 0, 50% 50%, 100% 0);
+      transform-origin: top;
+      transition: transform 0.6s;
+      z-index: 3;
+    }
+
+    .letter {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      width: 370px;
+      height: 230px;
+      background: white;
+      padding: 20px;
+      box-sizing: border-box;
+      transition: transform 0.6s, z-index 0.6s;
+      z-index: 1;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      font-size: 1rem;
+      overflow-y: auto;
+      text-align: left;
+    }
+
+
+    .envelope-wrapper.open .flap {
+      transform: rotateX(180deg);
+      z-index: 0;
+    }
+
+    .envelope-wrapper.open .letter {
+      transform: translateY(-150px);
+      z-index: 4;
+      height: 450px;
+    }
+
+    .explosion-hearts {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    /* =========================================
+               VERSION PARA CELULAR (RESPONSIVE)
+               Esto solo se activa si la pantalla es pequeña
+               ========================================= */
+    @media only screen and (max-width: 600px) {
+
+      /* 1. Ajustamos el ancho general para que no se salga */
+      section {
+        max-width: 100%; /* Ocupa todo el ancho del cel */
+        padding: 15px;
+      }
+
+      /* 2. El Título principal más chico */
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      /* 3. LAS FOTOS EN CELULAR */
+      /* En celular, 3 fotos horizontales se ven muy chicas.
+         Aquí las ponemos una debajo de otra para que se vean GRANDES y bonitas */
+      .photo-container {
+        flex-direction: column; /* Cambia a columna */
+        height: auto;
+      }
+
+      .photo-card {
+        width: 100%; /* Que ocupe todo el ancho */
+        margin-bottom: 20px;
+      }
+
+      .photo-card img {
+        height: auto; /* Altura automática para que no se deforme */
+        max-height: 400px;
+      }
+
+      /* 4. ARREGLAMOS EL SOBRE (Para que quepa en la pantalla) */
+      .envelope-wrapper {
+        width: 280px;  /* Más angosto que el de laptop (400px) */
+        height: 180px; /* Más bajito */
+      }
+
+      .letter {
+        width: 260px;  /* Ajustamos la carta al nuevo sobre */
+        height: 160px;
+        font-size: 0.9rem; /* Letra un poco más chica */
+        padding: 10px;
+      }
+
+      /* Cuando la carta sale del sobre en celular */
+      .envelope-wrapper.open .letter {
+        height: 350px; /* Que crezca bastante para leer */
+        transform: translateY(-80px); /* Que suba un poco menos */
+      }
+
+      /* Ajustamos la lluvia de corazones para que no tape el texto */
+      .heart-rain {
+        font-size: 15px; /* Corazones un poco más chicos */
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>Feliz Primer Mes, Mi Amor</h1>
+  <div class="message-box">
+    <p>Hola mi vida, a pesar de que no se si signifique mucho para ti, espero te guste pues cree esto con todo el amor que te tengo mi amor ❤️.</p>
+  </div>
+</header>
+
+<section>
+  <h2>Nuestra Música 🎵</h2>
+  <div class="music-player">
+    <p>Escucha la canción mientras ves la página:</p>
+    <audio controls>
+      <source src="img/Mi%20Suerte.mp4" type="audio/mpeg">
+      Tu navegador no soporta el audio.
+    </audio>
+  </div>
+</section>
+
+<section>
+  <h2>Nuestros Momentos 📸</h2>
+  <div class="photo-container">
+
+    <div class="photo-card">
+      <img src="img/LesBonita.png" alt="Foto 1">
+      <p>
+        Una foto que me encanta porque me encanta tu belleza natural y me hace recordar el afortunado
+        hombre que soy porque seas mi mujer ❤️.
+      </p>
+    </div>
+
+    <div class="photo-card">
+      <img src="img/LesChampions.png" alt="Foto 2">
+      <p>
+        Una hermosa foto e idea que me gusta, pues demuestra que mi fanatismo lo entiendes y me sigues
+        en mis locuras, te amo por eso ❤️.
+      </p>
+    </div>
+
+    <div class="photo-card">
+      <img src="img/LesSonrisa.png" alt="Foto 3">
+      <p>
+        En esta foto no puedo describir la felicidad que me genera tu hermosa sonrisa, te ves y eres hermosa
+        y en el futuro, esa sonrisa me alegrara todos los dias ❤️.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<section class="surprise-section">
+  <h2>✨ Una Sorpresa ✨</h2>
+
+  <div class="dates">
+    <div class="date-item">
+      <h3>Cuando nos conocimos</h3>
+      <p>📅 28/08/2024</p>
+      <small>1 año y 5 meses ha pasado desde aquel día, quien diría que fue uno de los mejores días de mi vida ❤️.</small>
+    </div>
+    <div class="date-item">
+      <h3>Nuestro inicio</h3>
+      <p>📅 28/12/2025</p>
+      <small>Y hoy se cumple nuestro primer mes oficial, y no me arrepentire de nada, porque te amo con todo mi corazon ❤️.</small>
+    </div>
+  </div>
+
+  <p style="margin-bottom: 20px;">Toca el sobre para abrirlo y espero te guste:</p>
+
+  <div class="envelope-wrapper" id="envelope" onclick="openLetter()">
+    <div class="envelope"></div>
+    <div class="flap"></div>
+    <div class="letter">
+      <h3>Para Leslie, mi amor:</h3>
+      <p>
+
+        Amor mio ❤️:
+
+        A veces me pongo a pensar en lo que es mi vida ahora y lo que somos, no puedo dejar de sonreír
+        Quien diría que con un simple mensaje de WhatsApp empezaria una historia de amor tan bonita, feliz y con un muy bonito
+        futuro por delante. De ese mensaje que se envió, con tantos nervios, pero a la vez tantas ganas de poder crear algo bonito,
+        estaba nervioso como nunca, pero dentro de mi sabia que valia la pena intentarlo, por el simple hecho de que eras tú ❤️.
+        Con el paso del tiempo llegaron más mensajes, muchas risas, y las llamdas que eran muy cortas para el inmenso cariño y amor
+        que iban y siguen creciendo. Incluyendo esas interminables ganas de hablarte incluso cuando no hay nada importante que decir,
+        el simple hecho de poder convesar y pasar tiempos juntos, es lo que más amo en el mundo ❤️.
+        Luego llegaron los videos, las peliculas y el tiempo junto que pasamos juntos viendo diferentes cosas, los tiktos,
+        los reels de instragam, y las risas que nunca faltaban en nuestras vidas, hasta que llego esa llamada, la más importante
+        de todas, cuando te pedi que seamos enamorados oficialmente, aunque sé que te lo debo de pedir en persona, ya es un avance
+        en nuestras vidas, ese momento en el que te dije que quiero empezar una relacion contigo, ese momento y todos los momentos que
+        pasamos juntos los llevo guardados en mi corazon. A pesar de que ya llevamos más de un año conociendonos, ese momento me hace
+        sentir tan feliz, pues tuvimos la valentia de oficilizar nuestra historia, de mi parte por decirtelo, y de tu parte por
+        aceptar, que aunque tal vez ya sentia y sabía la respuesta, los nervios nunca se acaban, y ese momento hoy me hace sentir
+        tan orgulloso y feliz porque estamos aquí ❤️. No sabes lo agardecido que estoy contigo mi amor, por tu amor, tu paciencia y
+        la forma en la que me amas y me cuidas siempre. Gracias por elegirme y amarme como soy, por acompañarme, estar ahí para mí y
+        hacerme feliz siempre. Gracias por permitir que seas Mi Mujer, Mi Reina, Mi Esposa, Simplemente MI AMOR ❤️.
+        Llevamos ya un 1 año y 5 meses de conocernos, y es nuestro primer mes juntos como enamorados y quiero que sepas como ya te lo
+        he dicho mil veces, que sueño con un futuro juntos, con nuestros proyectos juntos, sueños y anhelos que cada uno tiene,
+        apoyarnos en todo, con nuetsras metas y objetivos perosnales y juntos que construiremos de la mano, paso a paso, poco a poco.
+        Sueño con seguir creciendo contigo, celebrando nuestros logros, superando las dificultades que se presenten y apoyandonos
+        siempre, incluso en los días más complicados, teniendo en cuenta, como base nuestro amor, hoy, mañana y siempre mi amor ❤️.
+        Te prometo amor, respeto y compromiso. Te prometo seguir eligiéndote cada día, aun cuando no sea fácil, aun cuando tengamos
+        que aprender y mejorar. Porque amarte no es solo un sentimiento, es una decisión que me hace muy feliz por el simple hecho
+        de que seas tu ❤️. Eres y serás simplemente tú en mi vida, amor mío ❤️. Mi amor, gracias por existir, gracias por estar en
+        mi vida, gracias por ser Mi Amor ❤️. Llegaste en el mejor momento, en el momento más inesperado y a la vez perfecto de mi vida
+        Si tuviera que volver a ese día, volveria a elegirte, volveria a mandar ese mensaje, volveria a ponerme nervioso,
+        pero sobre todo, volveria a enamorarme de ti una y mil veces más ❤️.
+        Porque soy feliz contigo, el amor que nos tenemos y lo que somos y seremos no lo cambiaría por nada mi amor.
+        Mientras escribo esto, estoy llorando de felicidad que estemos y sigamos aca, eres y serás mi Doña Celos, Mi Doña Enojona,
+        Eres y Serás Mi Amor... ❤️.
+        Te amo más de lo que las palabras pueden explicar ❤️
+        Hoy, mañana y siempre ❤️
+
+        <br><br>
+        ¡Te amooo ❤️!
+        <br>
+        - Sergio, Tu Enamorado ❤️.
+      </p>
+    </div>
+  </div>
+
+</section>
+
+<script>
+  let isScrolling;
+
+  document.addEventListener('scroll', function() {
+    createHeart();
+
+    window.clearTimeout(isScrolling);
+    isScrolling = setTimeout(function() {
+      // Scroll detenido
+    }, 66);
+  });
+
+  function createHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart-rain');
+    heart.innerHTML = '❤️';
+
+    heart.style.left = Math.random() * 100 + 'vw';
+
+    heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+
+    heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+      heart.remove();
+    }, 5000);
+  }
+
+  function openLetter() {
+    const envelope = document.getElementById('envelope');
+
+    if (!envelope.classList.contains('open')) {
+      envelope.classList.add('open');
+
+      for(let i=0; i<30; i++) {
+        setTimeout(createHeart, i * 100);
+      }
+    } else {
+      envelope.classList.remove('open');
+    }
+  }
+</script>
+</body>
+</html>
