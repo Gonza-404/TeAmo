@@ -46,7 +46,6 @@
     }
     .menu-sorpresas {
       margin-top: 40px;
-      /* Aquí irán los botones de Mes 1, Mes 2, Cumple, etc. */
     }
     .botones-container {
       display: flex;
@@ -72,6 +71,20 @@
       transform: translateY(-3px);
       color: white;
     }
+    /* Estilo para el botón pendiente del Mes 3 */
+    .btn-pendiente {
+      background-color: #fce4ec;
+      border: 2px dashed #d81b60;
+      color: #ad1457;
+      opacity: 0.8;
+      cursor: default;
+    }
+    .btn-pendiente:hover {
+      background-color: #fce4ec;
+      transform: none;
+      color: #ad1457;
+    }
+
     .btn-cumple {
       background-color: #d81b60; /* Fucsia oscuro vibrante */
       color: white;
@@ -97,7 +110,7 @@
 
 <div class="mensaje-bienvenida">
   <p>Este es nuestro rinconcito especial que he creado en internet, para que aquí guardemos todas nuestras sorpresas, fechas importantes y los recuerdos que vayamos creando juntos. Prepárate, porque cada botón de aquí abajo esconde algo único preparado solo para ti.
-  Te Amo ❤️.</p>
+    Te Amo ❤️.</p>
 </div>
 
 <div class="contador-container">
@@ -113,35 +126,52 @@
 
     <a href="mes2.html" class="btn-mes">💞 Dos Meses Juntos</a>
 
+    <a href="#" class="btn-mes btn-pendiente"> Tercer Mes (Próximamente)</a>
+
+    <a href="mes4.html" class="btn-mes">Nuestro Cuarto Mes ⌛</a>
+
     <a href="cumple.html" class="btn-cumple">¡Feliz Cumpleaños! 🎂❤️.</a>
   </div>
 </div>
-
 <script>
-  // Fecha de inicio: 28 de diciembre de 2025 a las 00:00:00
-  const fechaInicio = new Date('December 28, 2025 00:00:00').getTime();
+  // Fecha de inicio real
+  const fechaInicio = new Date('December 28, 2025 00:00:00');
 
   function actualizarContador() {
-    const ahora = new Date().getTime();
-    const diferencia = ahora - fechaInicio;
+    const ahora = new Date();
+    const diferencia = ahora.getTime() - fechaInicio.getTime();
 
-    // Cálculos matemáticos de tiempo
-    const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+    // Cálculos de tiempo total
+    const diasTotales = Math.floor(diferencia / (1000 * 60 * 60 * 24));
     const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
     const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
 
-    // Calcular meses aproximados (suponiendo meses de 30 días para no complicar la vista)
-    const meses = Math.floor(dias / 30);
-    const diasSobrantes = dias % 30;
+    // LÓGICA DE CALENDARIO REAL PARA LOS MESES
+    let meses = (ahora.getFullYear() - fechaInicio.getFullYear()) * 12;
+    meses += ahora.getMonth() - fechaInicio.getMonth();
+
+    // Si aún no llegamos al día 28 este mes, restamos uno
+    if (ahora.getDate() < fechaInicio.getDate()) {
+      meses--;
+    }
+
+    // Calculamos los días que han pasado desde el último día 28
+    let ultimoAniversarioMes = new Date(ahora.getFullYear(), ahora.getMonth(), fechaInicio.getDate());
+    if (ahora.getDate() < fechaInicio.getDate()) {
+      ultimoAniversarioMes.setMonth(ultimoAniversarioMes.getMonth() - 1);
+    }
+
+    const diferenciaDias = ahora - ultimoAniversarioMes;
+    const diasSobrantes = Math.floor(diferenciaDias / (1000 * 60 * 60 * 24));
 
     document.getElementById("contador").innerHTML =
       meses + " Meses, " + diasSobrantes + " Días, " + horas + " Horas, <br>" +
       minutos + " Minutos y " + segundos + " Segundos";
   }
 
-  // Actualizar el contador cada segundo (1000 milisegundos)
   setInterval(actualizarContador, 1000);
+  actualizarContador(); // Ejecutar de inmediato al cargar
 </script>
 </body>
 </html>
