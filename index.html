@@ -102,6 +102,90 @@
       transform: scale(1.05);
       box-shadow: 0 6px 15px rgba(216, 27, 96, 0.6);
     }
+    /* Estilo especial para el Día de la Novia (Universo) */
+    .btn-universo {
+      background: linear-gradient(45deg, #4a154b, #d81b60); /* Combina oscuro con fucsia */
+      color: white;
+      text-decoration: none;
+      padding: 15px 20px;
+      border-radius: 25px;
+      font-size: 1.3em;
+      font-weight: bold;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 10px rgba(74, 21, 75, 0.4);
+      margin-top: 20px;
+      border: 2px dashed #ffb6c1;
+      animation: latidoBoton 2s infinite alternate;
+    }
+
+    .btn-universo:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(216, 27, 96, 0.6);
+      color: white;
+    }
+
+    @keyframes latidoBoton {
+      from { transform: scale(1); }
+      to { transform: scale(1.02); }
+    }
+
+    /* --- ESTILOS DE LA NOTA FLOTANTE --- */
+    .nota-flotante {
+      position: fixed;
+      bottom: 20px; /* Separación desde abajo */
+      right: 20px;  /* Separación desde la derecha */
+      width: 280px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      border: 2px solid #ffb6c1;
+      z-index: 9999; /* Asegura que siempre esté por encima de todo */
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .nota-cabecera {
+      background: #d81b60;
+      color: white;
+      padding: 12px 15px;
+      font-weight: bold;
+      font-size: 1.1em;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+
+    .nota-cabecera:hover {
+      background: #c2185b;
+    }
+
+    /* La flechita que indicará si se abre o cierra */
+    .flecha-nota {
+      transition: transform 0.3s;
+    }
+    .nota-abierta .flecha-nota {
+      transform: rotate(180deg);
+    }
+
+    .nota-cuerpo {
+      padding: 0 15px; /* Empieza sin padding arriba/abajo para la animación */
+      max-height: 0;   /* Altura cero por defecto (cerrada) */
+      color: #4a154b;
+      font-size: 0.95em;
+      line-height: 1.5;
+      background: #fff0f3;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+    }
+
+    /* Clase que se activa con JavaScript cuando le dan clic */
+    .nota-abierta .nota-cuerpo {
+      max-height: 400px; /* Altura suficiente para que entre el texto */
+      padding: 15px;
+      border-top: 1px solid #ffb6c1;
+    }
   </style>
 </head>
 <body>
@@ -131,6 +215,21 @@
     <a href="mes4.html" class="btn-mes">Nuestro Cuarto Mes ⌛</a>
 
     <a href="cumple.html" class="btn-cumple">¡Feliz Cumpleaños! 🎂❤️.</a>
+
+    <a href="dia-novia.html" class="btn-universo">Feliz Día de la Novia ✨</a>
+  </div>
+  <div class="nota-flotante" id="notaWidget">
+    <div class="nota-cabecera" onclick="toggleNota()">
+      <span>📌 Nota 31/07</span>
+      <span class="flecha-nota" id="flechaNota">▼</span>
+    </div>
+    <div class="nota-cuerpo">
+      <p style="margin-top: 0;">Se que me dijiste que no te escriba mas pero tenia preparado esto, tal vez lo quieras ver o tal vez no.</p>
+      <p>Cada vez que fije el link en el chat es porque estara una sorpresa esperando.</p>
+      <p>No se si veas lo que hice ni se si signifique algo, solo espero que te guste.</p>
+      <p>Perdon que te haya escrito.</p>
+      <p style="margin-bottom: 0; font-weight: bold;">Cuidate ❤️.</p>
+    </div>
   </div>
 </div>
 <script>
@@ -171,7 +270,14 @@
   }
 
   setInterval(actualizarContador, 1000);
-  actualizarContador(); // Ejecutar de inmediato al cargar
+  actualizarContador();
+  // Ejecutar de inmediato al cargar
+  // Lógica para abrir y cerrar la nota flotante
+  function toggleNota() {
+    const nota = document.getElementById('notaWidget');
+    // Le quitamos o le ponemos la clase "nota-abierta" cada vez que hace clic
+    nota.classList.toggle('nota-abierta');
+  }
 </script>
 </body>
 </html>

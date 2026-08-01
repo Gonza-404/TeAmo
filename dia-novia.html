@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Universo Eres Tú ❤️</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@500;700&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      /* Fondo más oscuro similar al de tus fotos */
+      background: radial-gradient(circle at center, #26111a 0%, #080305 100%);
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      color: white;
+      animation: aparecer 2s ease-in;
+    }
+
+    .escena-3d {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      width: 0;
+      height: 0;
+      /* Transición suave solo para el zoom */
+      transition: transform 0.3s ease-out;
+    }
+
+    /* --- EL PLANETA Y EL TEXTO --- */
+    .planeta {
+      position: absolute;
+      top: -120px;
+      left: -120px;
+      width: 240px;
+      height: 240px;
+      background: radial-gradient(circle at 30% 30%, #1a1a24, #050508);
+      border-radius: 50%;
+      box-shadow: inset -20px -20px 40px rgba(0,0,0,0.9), 0 0 30px rgba(0,0,0,0.8);
+      z-index: 100; /* Punto medio de profundidad */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .texto-planeta {
+      font-family: 'Pacifico', cursive;
+      font-size: 2rem;
+      color: #ffffff;
+      line-height: 1.3;
+      text-shadow: 0 0 10px #ff5252, 0 0 20px #e91e63, 0 0 40px #d81b60;
+      z-index: 102;
+      animation: latidoTexto 3s infinite alternate ease-in-out;
+    }
+
+    @keyframes latidoTexto {
+      from { transform: scale(0.95); text-shadow: 0 0 10px #ff5252, 0 0 20px #e91e63; }
+      to { transform: scale(1.05); text-shadow: 0 0 20px #ff5252, 0 0 40px #e91e63, 0 0 60px #d81b60; }
+    }
+
+    /* --- LOS ANILLOS --- */
+    .anillo-base {
+      position: absolute;
+      top: -200px;
+      left: -200px;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      border: 30px solid rgba(230, 60, 20, 0.9);
+      box-shadow:
+        0 0 0 6px rgba(255, 180, 0, 0.7),
+        inset 0 0 20px rgba(255, 50, 0, 0.8),
+        0 0 30px rgba(255, 100, 0, 0.5);
+      transform: rotateX(75deg) rotateY(15deg);
+    }
+
+    .anillo-atras {
+      z-index: 99;
+      clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+    }
+
+    .anillo-frente {
+      z-index: 101;
+      clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+    }
+
+    /* --- LAS PALABRAS FLOTANTES --- */
+    .palabra {
+      position: absolute;
+      white-space: nowrap;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+      /* ¡IMPORTANTE! No poner "transform" aquí para que no de tirones */
+      transition: color 0.3s, text-shadow 0.3s;
+      left: 0;
+      top: 0;
+      transform-origin: center center;
+      user-select: none;
+      will-change: transform, opacity, filter;
+    }
+
+    .palabra:hover {
+      color: #ffffff !important;
+      text-shadow: 0 0 15px #ffffff, 0 0 30px #d81b60;
+      z-index: 1000 !important; /* Traer al frente al tocar */
+    }
+
+    /* --- BOTÓN DE REGRESO --- */
+    .btn-volver {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-decoration: none;
+      color: white;
+      padding: 12px 30px;
+      border: 2px solid #ff5722;
+      border-radius: 30px;
+      background: rgba(255, 87, 34, 0.1);
+      font-weight: bold;
+      transition: all 0.3s;
+      z-index: 1000;
+      letter-spacing: 1px;
+    }
+
+    .btn-volver:hover {
+      background: #ff5722;
+      box-shadow: 0 0 15px #ff5722;
+    }
+
+    @keyframes aparecer {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<a href="index.html" class="btn-volver">Volver a nuestro lugar</a>
+
+<div class="escena-3d">
+  <div class="anillo-base anillo-atras"></div>
+  <div class="planeta">
+    <span class="texto-planeta">Leslie,<br>Te Amo ❤️</span>
+  </div>
+  <div class="anillo-base anillo-frente"></div>
+
+  <div id="nube-palabras"></div>
+</div>
+
+<script>
+  // 1. LISTA REDUCIDA A 50 PALABRAS (Más espaciadas y limpias)
+  const palabrasData = [
+    { texto: "🌟 Mi sol", color: "#ffd54f" },
+    { texto: "👑 Reina", color: "#e0e0e0" },
+    { texto: "❤️ Pasión", color: "#ff5252" },
+    { texto: "✨ Mi destino", color: "#b39ddb" },
+    { texto: "Leslie ❤️", color: "#ff8a80" },
+    { texto: "🌌 Mi universo", color: "#90caf9" },
+    { texto: "🌤️ Mi cielo", color: "#4dd0e1" },
+    { texto: "💖 Mi amor", color: "#f48fb1" },
+    { texto: "🍬 Dulzura", color: "#ffcc80" },
+    { texto: "🌷 Ternura", color: "#f48fb1" },
+    { texto: "✨ Brillas", color: "#fff59d" },
+    { texto: "😠 Doña Celos", color: "#ff5252" },
+    { texto: "😤 Doña Enojona", color: "#ff8a80" },
+    { texto: "🏆 Mi Champions", color: "#ffd54f" },
+    { texto: "🌍 Mi Mundial", color: "#81d4fa" },
+    { texto: "🍀 Mi Suerte", color: "#aed581" },
+    { texto: "📍 Mi lugar favorito", color: "#4dd0e1" },
+    { texto: "👀 Ojitos lindos", color: "#e0e0e0" },
+    { texto: "👶 Nuestro sueño", color: "#f48fb1" },
+    { texto: "💃 Baile Inolvidable", color: "#ce93d8" },
+    { texto: "🌎 Mi vida entera", color: "#90caf9" },
+    { texto: "📅 28 de Diciembre", color: "#ffcc80" },
+    { texto: "💍 Esposos", color: "#ffd54f" },
+    { texto: "👨‍👩‍👧 Nuestra familia", color: "#f48fb1" },
+    { texto: "🛡️ Mi lugar seguro", color: "#4dd0e1" },
+    { texto: "👧 Mi niña hermosa", color: "#ff8a80" },
+    { texto: "🪄 Magia", color: "#b39ddb" },
+    { texto: "💕 Idilio", color: "#ffab91" },
+    { texto: "🤝 Contigo", color: "#aed581" },
+    { texto: "👩‍❤️‍👨 Tú y Yo", color: "#ff5252" },
+    { texto: "🌟 Mi princesa", color: "#ffd54f" },
+    { texto: "😍 Hermosa", color: "#ffab91" },
+    { texto: "🙏 Mi bendición", color: "#aed581" },
+    { texto: "🌞 Mi sol y luna", color: "#fff59d" },
+    { texto: "🤫 Mi confidente", color: "#e0e0e0" },
+    { texto: "💘 Amor a primera vista", color: "#ff5252" },
+    { texto: "🎁 Mi presente", color: "#ff8a80" },
+    { texto: "🚀 Mi futuro", color: "#90caf9" },
+    { texto: "🫂 Mi apoyo", color: "#f48fb1" },
+    { texto: "😂 Risas juntos", color: "#ffab91" },
+    { texto: "🥺 Te extraño", color: "#ff8a80" },
+    { texto: "💖 Te quiero", color: "#ff5252" },
+    { texto: "Te amo ❤️", color: "#ce93d8"},
+    { texto: "🥰 Mi hogar", color: "#ce93d8" },
+    { texto: "👩‍❤️‍💋‍👨 Besos", color: "#f48fb1" },
+    { texto: "🤗 Abrazos", color: "#90caf9" },
+    { texto: "🎵 Nuestra melodía", color: "#ce93d8" },
+  ];
+
+  // 2. CONFIGURACIÓN DEL ESPACIO (Mucho más grande para que se vea limpio)
+  const contenedor = document.getElementById('nube-palabras');
+  const escena = document.querySelector('.escena-3d');
+  const radioEsfera = 500; // Galaxia mucho más amplia (antes 330)
+  const perspectiva = 1200; // Cámara más lejana para evitar deformaciones
+  let elementos = [];
+
+  // 3. GENERAR LA ESFERA
+  palabrasData.forEach((data, i) => {
+    let el = document.createElement('div');
+    el.className = 'palabra';
+    el.innerText = data.texto;
+    el.style.color = data.color;
+    contenedor.appendChild(el);
+
+    let phi = Math.acos(-1 + (2 * i) / palabrasData.length);
+    let theta = Math.sqrt(palabrasData.length * Math.PI) * phi;
+
+    let x = radioEsfera * Math.cos(theta) * Math.sin(phi);
+    let y = radioEsfera * Math.sin(theta) * Math.sin(phi);
+    let z = radioEsfera * Math.cos(phi);
+
+    elementos.push({ el, x, y, z });
+  });
+
+  // 4. FÍSICA EXTREMADAMENTE SUAVE Y LIMITADA
+  let velocidadBaseX = 0.0008; // Giro natural muy lento
+  let velocidadBaseY = 0.0008;
+  let vx = velocidadBaseX;
+  let vy = velocidadBaseY;
+
+  let arrastrando = false;
+  let mouseAnterior = { x: 0, y: 0 };
+  let zoomLevel = 1;
+
+  // Zoom fluido
+  document.addEventListener('wheel', (e) => {
+    zoomLevel += e.deltaY * -0.001;
+    zoomLevel = Math.max(0.3, Math.min(zoomLevel, 2.0));
+    escena.style.transform = `translate(-50%, -50%) scale(${zoomLevel})`;
+  });
+
+  // Arrastre en PC
+  document.addEventListener('mousedown', (e) => {
+    arrastrando = true;
+    mouseAnterior = { x: e.clientX, y: e.clientY };
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!arrastrando) return;
+    let deltaX = e.clientX - mouseAnterior.x;
+    let deltaY = e.clientY - mouseAnterior.y;
+
+    // Sensibilidad bajísima para que no se vuelva loco
+    vy = deltaX * 0.001;
+    vx = deltaY * 0.001;
+
+    // Límite de velocidad máxima (Nunca irá súper rápido)
+    vx = Math.max(-0.015, Math.min(0.015, vx));
+    vy = Math.max(-0.015, Math.min(0.015, vy));
+
+    mouseAnterior = { x: e.clientX, y: e.clientY };
+  });
+
+  document.addEventListener('mouseup', () => arrastrando = false);
+
+  // Arrastre en Móvil
+  document.addEventListener('touchstart', (e) => {
+    arrastrando = true;
+    mouseAnterior = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  });
+
+  document.addEventListener('touchmove', (e) => {
+    if (!arrastrando) return;
+    let deltaX = e.touches[0].clientX - mouseAnterior.x;
+    let deltaY = e.touches[0].clientY - mouseAnterior.y;
+
+    vy = deltaX * 0.001;
+    vx = deltaY * 0.001;
+
+    vx = Math.max(-0.015, Math.min(0.015, vx));
+    vy = Math.max(-0.015, Math.min(0.015, vy));
+
+    mouseAnterior = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  });
+
+  document.addEventListener('touchend', () => arrastrando = false);
+
+  // 5. MOTOR RENDER CON PROFUNDIDAD (Blur y Opacidad)
+  function animar() {
+    if (!arrastrando) {
+      vx += (velocidadBaseX - vx) * 0.01;
+      vy += (velocidadBaseY - vy) * 0.01;
+    }
+
+    let cosY = Math.cos(vy);
+    let sinY = Math.sin(vy);
+    let cosX = Math.cos(vx);
+    let sinX = Math.sin(vx);
+
+    elementos.forEach(item => {
+      let x1 = item.x * cosY - item.z * sinY;
+      let z1 = item.z * cosY + item.x * sinY;
+
+      let y1 = item.y * cosX - z1 * sinX;
+      let z2 = z1 * cosX + item.y * sinX;
+
+      item.x = x1;
+      item.y = y1;
+      item.z = z2;
+
+      let zProfundidad = perspectiva + item.z;
+      let escala = perspectiva / zProfundidad;
+
+      let pantallaX = item.x * escala;
+      let pantallaY = item.y * escala;
+
+      // Opacidad: Se desvanecen cuando van muy atrás
+      let opacidad = Math.max(0, 1 - (item.z / (radioEsfera * 0.8)));
+      if (opacidad > 1) opacidad = 1;
+
+      // Blur: Se ponen borrosas si están lejos
+      let blur = Math.max(0, (item.z / radioEsfera) * 4);
+
+      item.el.style.transform = `translate(-50%, -50%) translate3d(${pantallaX}px, ${pantallaY}px, 0) scale(${escala})`;
+      item.el.style.opacity = opacidad;
+      item.el.style.filter = `blur(${blur}px)`;
+      item.el.style.zIndex = Math.floor(escala * 100);
+    });
+
+    requestAnimationFrame(animar);
+  }
+
+  animar();
+</script>
+</body>
+</html>
