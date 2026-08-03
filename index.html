@@ -130,25 +130,27 @@
     }
 
     /* --- ESTILOS DE LA NOTA FLOTANTE --- */
+    /* --- HISTORIAL DE NOTAS FLOTANTE (DERECHA) --- */
     .nota-flotante {
       position: fixed;
-      bottom: 20px; /* Separación desde abajo */
-      right: 20px;  /* Separación desde la derecha */
-      width: 280px;
+      bottom: 20px;
+      right: 20px;
+      width: 320px;
       background: white;
       border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
       border: 2px solid #ffb6c1;
-      z-index: 9999; /* Asegura que siempre esté por encima de todo */
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
       overflow: hidden;
-      transition: all 0.3s ease;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     .nota-cabecera {
       background: #d81b60;
       color: white;
-      padding: 12px 15px;
+      padding: 15px;
       font-weight: bold;
       font-size: 1.1em;
       cursor: pointer;
@@ -156,35 +158,53 @@
       justify-content: space-between;
       align-items: center;
       user-select: none;
+      transition: background 0.3s;
     }
 
     .nota-cabecera:hover {
       background: #c2185b;
     }
 
-    /* La flechita que indicará si se abre o cierra */
     .flecha-nota {
-      transition: transform 0.3s;
+      transition: transform 0.4s ease;
     }
+
     .nota-abierta .flecha-nota {
       transform: rotate(180deg);
     }
 
+    /* El contenedor donde irán las notas apiladas */
     .nota-cuerpo {
-      padding: 0 15px; /* Empieza sin padding arriba/abajo para la animación */
-      max-height: 0;   /* Altura cero por defecto (cerrada) */
+      max-height: 0;
+      background: #fff0f3;
+      transition: max-height 0.5s ease;
+      overflow-y: auto; /* Agrega scroll si hay muchas notas */
+    }
+
+    .nota-abierta .nota-cuerpo {
+      max-height: 350px; /* Altura máxima del panel al abrirse */
+    }
+
+    /* Diseño de cada nota individual */
+    .nota-item {
+      padding: 15px;
+      border-bottom: 2px dashed #ffb6c1;
       color: #4a154b;
       font-size: 0.95em;
       line-height: 1.5;
-      background: #fff0f3;
-      transition: max-height 0.4s ease, padding 0.4s ease;
     }
 
-    /* Clase que se activa con JavaScript cuando le dan clic */
-    .nota-abierta .nota-cuerpo {
-      max-height: 400px; /* Altura suficiente para que entre el texto */
-      padding: 15px;
-      border-top: 1px solid #ffb6c1;
+    /* Quitar la línea punteada a la última nota */
+    .nota-item:last-child {
+      border-bottom: none;
+    }
+
+    .nota-fecha {
+      font-size: 0.85em;
+      color: #d81b60;
+      font-weight: bold;
+      margin-bottom: 5px;
+      display: block;
     }
   </style>
 </head>
@@ -210,7 +230,7 @@
 
     <a href="mes2.html" class="btn-mes">💞 Dos Meses Juntos</a>
 
-    <a href="#" class="btn-mes btn-pendiente"> Tercer Mes (Próximamente)</a>
+    <a href="mes3.html" class="btn-mes"> Tercer Mes ❤️.</a>
 
     <a href="mes4.html" class="btn-mes">Nuestro Cuarto Mes ⌛</a>
 
@@ -218,19 +238,17 @@
 
     <a href="dia-novia.html" class="btn-universo">Feliz Día de la Novia ✨</a>
   </div>
+</div>
+  <!-- PANEL DE NOTAS (HISTORIAL) -->
   <div class="nota-flotante" id="notaWidget">
     <div class="nota-cabecera" onclick="toggleNota()">
-      <span>📌 Nota 31/07</span>
+      <span>📌 Nuestras Notas</span>
       <span class="flecha-nota" id="flechaNota">▼</span>
     </div>
-    <div class="nota-cuerpo">
-      <p style="margin-top: 0;">Se que me dijiste que no te escriba mas pero tenia preparado esto, tal vez lo quieras ver o tal vez no.</p>
-      <p>Cada vez que fije el link en el chat es porque estara una sorpresa esperando.</p>
-      <p>No se si veas lo que hice ni se si signifique algo, solo espero que te guste.</p>
-      <p>Perdon que te haya escrito.</p>
-      <p style="margin-bottom: 0; font-weight: bold;">Cuidate ❤️.</p>
+
+    <!-- Aquí se inyectarán las notas mágicamente -->
+    <div class="nota-cuerpo" id="lista-notas">
     </div>
-  </div>
 </div>
 <script>
   // Fecha de inicio real
@@ -272,12 +290,52 @@
   setInterval(actualizarContador, 1000);
   actualizarContador();
   // Ejecutar de inmediato al cargar
-  // Lógica para abrir y cerrar la nota flotante
+  /// --- LÓGICA DEL HISTORIAL DE NOTAS ---
+
+  // Función para abrir/cerrar el panel
   function toggleNota() {
-    const nota = document.getElementById('notaWidget');
-    // Le quitamos o le ponemos la clase "nota-abierta" cada vez que hace clic
-    nota.classList.toggle('nota-abierta');
+    document.getElementById('notaWidget').classList.toggle('nota-abierta');
   }
+
+  // Aquí guardaremos todas las notas.
+  // La primera de la lista será la que aparezca más arriba.
+  const historialNotas = [
+    {
+      fecha: "03/08/2026",
+      texto: "Termine de hacer un mes que estaba pendiente, espero te guste o que signifique algo para ti.<br>"+
+        "También decirte que hare todos los meses y te ire avisando como lo hice en la primera nota.<br>"+
+        "Me olvidé mencionar en la nota anterior que cada que fije el mensaje cuando lo veas lo desfijes, asi sabre que ya viste lo que hice.<br>"+
+        "Espero te guste, espero que todo vaya bien y sin nada más que decir, Cuidate ❤️."
+    },
+    {
+      fecha: "31/07/2026",
+      texto: "Sé que me dijiste que no te escriba más, pero tenía preparado esto, tal vez lo quieras ver o tal vez no.<br>" +
+        "<br>Cada vez que fije el link en el chat es porque estara una sorpresa esperando.<br>" +
+        "<br>No se si veas lo que hice ni se si signifique algo, solo espero que te guste.<br>" +
+        "<br>Perdon que te haya escrito.<br>Cuidate ❤️."
+    }
+  ];
+
+  // Función que lee la lista y la dibuja en la pantalla
+  function cargarNotas() {
+    const contenedor = document.getElementById('lista-notas');
+    contenedor.innerHTML = ""; // Limpiamos antes de cargar
+
+    historialNotas.forEach(nota => {
+      // Creamos el diseño para cada nota
+      const elementoNota = `
+        <div class="nota-item">
+          <span class="nota-fecha">${nota.fecha}</span>
+          <div class="nota-texto">${nota.texto}</div>
+        </div>
+      `;
+      // Lo agregamos al contenedor
+      contenedor.innerHTML += elementoNota;
+    });
+  }
+
+  // Ejecutamos la función apenas cargue la página
+  cargarNotas();
 </script>
 </body>
 </html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Eclipse de Marzo</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;500;700&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #0d1117; /* Fondo oscuro inicial */
+      color: white;
+      transition: background-color 2s ease;
+      overflow-x: hidden;
+    }
+
+    /* Cuando se activa el botón, el fondo cambia a tonos cálidos y festivos */
+    body.revelado {
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+      color: #4a4a4a;
+    }
+
+    /* --- FASE 1: EL ECLIPSE --- */
+    #fase-eclipse {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      transition: opacity 1.5s ease;
+    }
+
+    .eclipse-container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      margin-bottom: 30px;
+    }
+
+    .sol-eclipse {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      background: radial-gradient(circle, #fff3e0 0%, #ffb74d 50%, #f57c00 100%);
+      border-radius: 50%;
+      top: 25px;
+      left: 25px;
+      box-shadow: 0 0 50px #ff9800;
+      transition: box-shadow 2s ease;
+    }
+
+    .luna-eclipse {
+      position: absolute;
+      width: 148px;
+      height: 148px;
+      background-color: #0d1117; /* Mismo color del fondo oscuro para simular el eclipse */
+      border-radius: 50%;
+      top: 26px;
+      left: 15px;
+      transition: transform 3s ease, opacity 2s ease;
+    }
+
+    /* La animación mágica: la luna se mueve a la derecha y desaparece */
+    body.revelado .luna-eclipse {
+      transform: translateX(250px);
+      opacity: 0;
+    }
+
+    body.revelado .sol-eclipse {
+      box-shadow: 0 0 100px #ffeb3b, 0 0 150px #ff9800;
+    }
+
+    #texto-oscuro {
+      max-width: 600px;
+      padding: 0 20px;
+      transition: opacity 1s ease;
+    }
+
+    #texto-oscuro h1 {
+      font-family: 'Pacifico', cursive;
+      color: #e0e0e0;
+      margin-bottom: 10px;
+    }
+
+    .btn-luz {
+      margin-top: 30px;
+      padding: 15px 30px;
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+      border-radius: 30px;
+      font-size: 1.1em;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .btn-luz:hover {
+      background: white;
+      color: #0d1117;
+      box-shadow: 0 0 20px white;
+    }
+
+    /* --- FASE 2: LA LUZ Y CUMPLEAÑOS --- */
+    #fase-luz {
+      display: none; /* Oculto al inicio */
+      opacity: 0;
+      padding: 50px 20px;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      transition: opacity 2s ease;
+    }
+
+    #fase-luz h2 {
+      font-family: 'Pacifico', cursive;
+      color: #d81b60;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    .carta-luz {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(216, 27, 96, 0.2);
+      margin-bottom: 40px;
+      text-align: left;
+      line-height: 1.8;
+      font-size: 1.05em;
+      border-left: 5px solid #ff69b4;
+    }
+
+    .musica-alegre {
+      background: #fff0f5;
+      padding: 15px;
+      border-radius: 15px;
+      border: 2px dashed #ffb6c1;
+      margin-bottom: 30px;
+    }
+
+    .musica-alegre p {
+      color: #d81b60;
+      font-weight: bold;
+      margin-top: 0;
+    }
+
+    audio {
+      width: 100%;
+      outline: none;
+    }
+
+    /* Estilo Polaroid para las fotos */
+    .fotos-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .polaroid {
+      background: white;
+      padding: 15px 15px 25px 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+      transform: rotate(-2deg);
+      transition: transform 0.3s, z-index 0.3s;
+      width: 250px;
+    }
+
+    .polaroid:nth-child(even) {
+      transform: rotate(3deg);
+    }
+
+    .polaroid:hover {
+      transform: scale(1.05) rotate(0deg);
+      z-index: 10;
+    }
+
+    .polaroid img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border: 1px solid #eee;
+    }
+
+    .polaroid p {
+      font-family: 'Pacifico', cursive;
+      color: #d81b60;
+      margin: 10px 0 0 0;
+      font-size: 1.2em;
+    }
+
+    .btn-volver {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 12px 25px;
+      background: #d81b60;
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(216, 27, 96, 0.4);
+      transition: transform 0.2s;
+    }
+
+    .btn-volver:hover {
+      transform: scale(1.05);
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- FASE 1: ECLIPSE -->
+<div id="fase-eclipse">
+  <div class="eclipse-container">
+    <div class="sol-eclipse"></div>
+    <div class="luna-eclipse" id="luna"></div>
+  </div>
+
+  <div id="texto-oscuro">
+    <h1>El Eclipse de Marzo</h1>
+    <p>Marzo fue un mes intenso. Tuvimos días grises, roces y algunas peleas que parecieron oscurecer un poco nuestro cielo. Se sintió como un eclipse cubriendo nuestra felicidad...</p>
+    <button class="btn-luz" onclick="revelarLuz()">Pero la luz siempre vuelve ✨</button>
+  </div>
+</div>
+
+<!-- FASE 2: LA LUZ Y LA CELEBRACIÓN -->
+<div id="fase-luz">
+  <h2>¡Y volvió a salir el Sol! ☀️</h2>
+
+  <div class="musica-alegre">
+    <p>🎶 Súbele el volumen y bailemos:</p>
+    <audio id="audio-cumple" controls>
+      <!-- AQUI: Pon la ruta de tu canción de Zaperoko o de Salsa que quieras ponerle -->
+      <source src="cns/NuncaCambies_Zaperoko.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <div class="carta-luz">
+    <p>Hola mi amor,</p>
+    <p>Así como en los eclipses la oscuridad solo es temporal, nuestros problemas también lo fueron. No importa cuántas veces discutamos, el amor que te tengo siempre será más fuerte y brillará más que cualquier malentendido.</p>
+    <p>Lo más hermoso de este mes fue celebrar la vida juntos.
+      Fue que a pesar de las discusiones y malos días estuvimos presente siempre, espero que te haya gustado lo que te hice por tu cumpleaños porque
+      el regalo que me diste fue lo mejor que me ha pasado. Enserió muchas gracias por el presente que tuviste conmigo, significa mucho para mí, pero sobre todo
+      espero que algún día podamos bailar juntos todas las canciones que soñamos escuchar, disfrutar y bailar juntos. Y como dice la canción, nunca cambies porque
+      te amo tal y como eres, espero algún día poder bailarla y disfrutarla juntos.
+    </p>
+    <p>Gracias por iluminar mis días. Te amo, mi Doña Enojona hermosa ❤️.</p>
+  </div>
+
+  <div class="fotos-container">
+    <!-- Foto 1 -->
+    <div class="polaroid">
+      <!-- Reemplaza el src con la foto de ustedes celebrando -->
+      <img src="img/LesCumple.png" alt="Cumpleaños">
+      <p>Tu Cumpleaños 🎉</p>
+    </div>
+    <!-- Foto 2 -->
+    <div class="polaroid">
+      <img src="img/LesFlores.png" alt="Juntos">
+      <p>Siempre Hermosa ❤️</p>
+    </div>
+  </div>
+
+  <a href="index.html" class="btn-volver">⬅ Volver a nuestro lugar</a>
+</div>
+
+<script>
+  function revelarLuz() {
+    // 1. Cambiamos la clase del body para activar la animación CSS (fondo y luna)
+    document.body.classList.add('revelado');
+
+    // 2. Ocultamos el texto inicial
+    document.getElementById('texto-oscuro').style.opacity = '0';
+
+    // 3. Después de 1.5 segundos (mientras la luna se quita), revelamos la fiesta
+    setTimeout(() => {
+      document.getElementById('fase-eclipse').style.display = 'none';
+
+      const faseLuz = document.getElementById('fase-luz');
+      faseLuz.style.display = 'block';
+
+      // Un pequeño delay para que la transición de opacidad se vea suave
+      setTimeout(() => {
+        faseLuz.style.opacity = '1';
+      }, 50);
+
+      // 4. Intentamos darle play automáticamente a la música de fondo
+      const audio = document.getElementById('audio-cumple');
+      audio.play().catch(error => {
+        console.log("El navegador pide que el usuario le de Play manualmente.");
+      });
+
+    }, 1500);
+  }
+</script>
+</body>
+</html>
