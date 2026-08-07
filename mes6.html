@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medio Año - 100 Años Más</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Poppins:wght@300;400;600&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom, #fdfbf7, #f4e8d1);
+      color: #4a3b32;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* --- ENCABEZADO Y CONTADOR --- */
+    .header {
+      text-align: center;
+      margin-top: 50px;
+      padding: 0 20px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3em;
+      color: #8b5a2b;
+      margin-bottom: 5px;
+    }
+
+    .contador-eterno {
+      background: #ffffff;
+      padding: 15px 30px;
+      border-radius: 30px;
+      border: 2px solid #d4af37;
+      box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+      font-size: 1.1em;
+      font-weight: 600;
+      color: #8b5a2b;
+      margin: 20px 0 40px 0;
+      display: inline-block;
+    }
+
+    /* --- EL TOCADISCOS (VINILO) --- */
+    .tocadiscos-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 40px;
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      border: 1px solid #eae0c8;
+    }
+
+    .vinilo {
+      width: 150px;
+      height: 150px;
+      background: #111;
+      border-radius: 50%;
+      position: relative;
+      border: 5px solid #333;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3), inset 0 0 10px rgba(255,255,255,0.2);
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* Animación pausada por defecto */
+      animation: girarVinilo 4s linear infinite;
+      animation-play-state: paused;
+    }
+
+    .vinilo-centro {
+      width: 50px;
+      height: 50px;
+      background: #d4af37;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .vinilo-agujero {
+      width: 10px;
+      height: 10px;
+      background: #fdfbf7;
+      border-radius: 50%;
+    }
+
+    /* Surcos del disco */
+    .vinilo::before, .vinilo::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .vinilo::before { width: 120px; height: 120px; }
+    .vinilo::after { width: 90px; height: 90px; }
+
+    @keyframes girarVinilo {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .titulo-cancion {
+      font-family: 'Playfair Display', serif;
+      font-weight: bold;
+      color: #8b5a2b;
+      margin: 0 0 15px 0;
+      font-size: 1.2em;
+    }
+
+    audio {
+      height: 40px;
+      outline: none;
+    }
+
+    /* --- LA CARTA --- */
+    .carta-pergamino {
+      background: #fffdf9;
+      width: 85%;
+      max-width: 600px;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.1), 0 10px 25px rgba(0,0,0,0.05);
+      border: 1px solid #e8dcc4;
+      line-height: 1.8;
+      text-align: center;
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    .carta-pergamino p {
+      font-size: 1.1em;
+      margin-bottom: 20px;
+    }
+
+    .firma {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.3em;
+      color: #8b5a2b;
+      margin-top: 30px;
+      font-weight: bold;
+    }
+
+    /* --- LÍNEA DE TIEMPO TERRENAL --- */
+    .camino-vida {
+      width: 90%;
+      max-width: 700px;
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    /* La línea vertical central */
+    .camino-vida::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 100%;
+      background: #d4af37;
+      border-radius: 2px;
+    }
+
+    .parada {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+      position: relative;
+      width: 100%;
+    }
+
+    .parada:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    /* El puntito en la línea */
+    .parada::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border: 4px solid #d4af37;
+      border-radius: 50%;
+      z-index: 2;
+    }
+
+    .parada-foto {
+      width: 45%;
+      background: white;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .parada-foto img {
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+
+    .parada-texto {
+      width: 40%;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2em;
+      color: #8b5a2b;
+      font-style: italic;
+      font-weight: bold;
+    }
+
+    .parada:nth-child(odd) .parada-texto { text-align: left; }
+    .parada:nth-child(even) .parada-texto { text-align: right; }
+
+    .destino-final {
+      text-align: center;
+      background: #d4af37;
+      color: white;
+      padding: 15px 30px;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 1.2em;
+      margin: 0 auto;
+      position: relative;
+      z-index: 5;
+      box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+    }
+
+    /* --- BOTÓN DE REGRESO --- */
+    .btn-volver {
+      margin: 40px 0;
+      padding: 12px 30px;
+      background: #8b5a2b;
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+
+    .btn-volver:hover {
+      transform: scale(1.05);
+      background: #6b4423;
+    }
+
+    /* Ajustes Celular */
+    @media (max-width: 600px) {
+      .camino-vida::before { left: 20px; }
+      .parada, .parada:nth-child(even) { flex-direction: column; align-items: flex-start; padding-left: 50px; }
+      .parada::before { left: 20px; top: 20px; }
+      .parada-foto, .parada-texto { width: 100%; text-align: left !important; margin-bottom: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Nuestro Primer Medio Año</h1>
+  <div class="contador-eterno">
+    Llevamos 6 meses exactos...<br>
+    Solo nos faltan 99 años y 6 meses. ⏳
+  </div>
+</div>
+
+<!-- EL TOCADISCOS -->
+<div class="tocadiscos-container">
+  <div class="vinilo" id="discoVinilo">
+    <div class="vinilo-centro">
+      <div class="vinilo-agujero"></div>
+    </div>
+  </div>
+  <p class="titulo-cancion">Pedro Infante - Cien Años 🎵</p>
+  <audio id="reproductorCienAnios" controls>
+    <!-- Asegúrate de tener la canción descargada con este nombre -->
+    <source src="cns/CienAños_PedroInfante.mp3" type="audio/mpeg">
+  </audio>
+</div>
+
+<!-- LA CARTA -->
+<div class="carta-pergamino">
+  <p>Mi amor hermoso,</p>
+  <p>Hoy estamos cumpliendo nuestro primer medio año juntos.
+    Seis meses de estar juntos como enamorados, de cuidarnos, de aprender el uno del otro y de construir esto tan bonito que tenemos.</p>
+  <p>Pero sabes algo... esto apenas comienza. No quiero que nos quedemos solo en seis meses.
+    Este es apenas el primer paso para estar juntos toda la eternidad. Quiero que este medio año se multiplique,
+    que se convierta en 100 años a tu lado, como dice la canción.</p>
+  <p>Pasaste de ser una casualidad a ser la mujer con la que quiero compartir mi vida entera.</p>
+  <p class="firma">Te amo. Por 100 y miles de años más.<br>- Sergio ❤️</p>
+</div>
+
+<!-- LÍNEA DE TIEMPO (CAMINO) -->
+<div class="camino-vida">
+
+  <div class="parada">
+    <div class="parada-foto">
+      <img src="img/LesYSergio.png" alt="Recuerdo">
+    </div>
+    <div class="parada-texto">Nuestros primeros pasos juntos...</div>
+  </div>
+
+  <div class="parada">
+    <div class="parada-foto">
+      <img src="img/LesIdilio.jpg" alt="Recuerdo">
+    </div>
+    <div class="parada-texto">Construyendo nuestro amor día a día...</div>
+  </div>
+
+  <div class="parada">
+    <div class="parada-foto">
+      <img src="img/LesHija.png" alt="Recuerdo">
+    </div>
+    <div class="parada-texto">Y lo mejor aún está por venir.</div>
+  </div>
+
+  <div class="destino-final">
+    Siguiente parada: El resto de nuestras vidas 💍❤️
+  </div>
+
+</div>
+
+<a href="index.html" class="btn-volver">⬅ Volver al Inicio</a>
+
+<script>
+  // Lógica para que el vinilo gire solo cuando la canción está sonando
+  const audio = document.getElementById('reproductorCienAnios');
+  const vinilo = document.getElementById('discoVinilo');
+
+  audio.addEventListener('play', () => {
+    vinilo.style.animationPlayState = 'running';
+  });
+
+  audio.addEventListener('pause', () => {
+    vinilo.style.animationPlayState = 'paused';
+  });
+
+  audio.addEventListener('ended', () => {
+    vinilo.style.animationPlayState = 'paused';
+  });
+</script>
+
+</body>
+</html>
