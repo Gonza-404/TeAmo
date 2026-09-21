@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Mayor Suerte - Mes 7</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;600;800&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      /* Fondo estilo casino elegante */
+      background: radial-gradient(circle at top, #4a0e17 0%, #1a0508 100%);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-family: 'Pacifico', cursive;
+      color: #ffd700; /* Dorado */
+      font-size: 3em;
+      margin-top: 40px;
+      margin-bottom: 5px;
+      text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+      text-align: center;
+    }
+
+    .subtitulo {
+      color: #ffb6c1;
+      font-size: 1.1em;
+      margin-bottom: 40px;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    /* --- LA MÁQUINA TRAGAMONEDAS --- */
+    .maquina {
+      background: linear-gradient(145deg, #d81b60, #880e4f);
+      padding: 20px;
+      border-radius: 20px;
+      border: 5px solid #ffd700;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.2);
+      text-align: center;
+      position: relative;
+      z-index: 10;
+      margin-bottom: 30px;
+    }
+
+    .pantalla-slots {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      border: 3px inset #ccc;
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .slot {
+      width: 80px;
+      height: 100px;
+      background: #f8f9fa;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 3em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: inset 0 5px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .slot-inner {
+      position: absolute;
+      transition: top 0.1s linear;
+    }
+
+    .btn-jugar {
+      background: linear-gradient(to bottom, #ffd700, #ffa000);
+      color: #4a0e17;
+      border: none;
+      padding: 15px 40px;
+      font-size: 1.2em;
+      font-weight: 800;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+      text-transform: uppercase;
+      transition: transform 0.1s;
+    }
+
+    .btn-jugar:active {
+      transform: scale(0.95);
+    }
+
+    /* --- EL PREMIO (MENSAJE) --- */
+    .premio-container {
+      display: none; /* Oculto hasta que gane */
+      background: rgba(255, 255, 255, 0.95);
+      color: #4a0e17;
+      padding: 30px;
+      border-radius: 15px;
+      width: 85%;
+      max-width: 600px;
+      margin-bottom: 40px;
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+      border: 3px dashed #d81b60;
+      text-align: center;
+      animation: aparecerPremio 1s forwards;
+    }
+
+    @keyframes aparecerPremio {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .premio-container h2 {
+      font-family: 'Pacifico', cursive;
+      color: #d81b60;
+      margin-top: 0;
+      font-size: 2em;
+    }
+
+    .premio-container p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    /* --- FOTOS DE ELLA --- */
+    .galeria-ella {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      width: 90%;
+      max-width: 800px;
+      margin-bottom: 50px;
+    }
+
+    .foto-ella {
+      background: white;
+      padding: 10px 10px 20px 10px;
+      border-radius: 5px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      width: 220px;
+      transform: rotate(-2deg);
+      transition: transform 0.3s;
+    }
+    .foto-ella:nth-child(even) { transform: rotate(3deg); }
+    .foto-ella:hover { transform: scale(1.05) rotate(0deg); z-index: 5; }
+
+    .foto-ella img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border: 1px solid #ddd;
+    }
+
+    .foto-ella p {
+      color: #d81b60;
+      font-family: 'Pacifico', cursive;
+      margin: 10px 0 0 0;
+      font-size: 1.1em;
+      text-align: center;
+    }
+
+    /* Lluvia de confeti */
+    .confeti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background-color: #ffd700;
+      z-index: 999;
+      animation: caer 3s linear infinite;
+    }
+
+    @keyframes caer {
+      to { transform: translateY(100vh) rotate(720deg); }
+    }
+
+    .btn-volver {
+      margin-bottom: 40px;
+      padding: 12px 30px;
+      background: #fff;
+      color: #4a0e17;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+    .btn-volver:hover { transform: scale(1.05); }
+
+  </style>
+</head>
+<body>
+
+<h1>7 Meses de Suerte</h1>
+<div class="subtitulo">A veces la mayor suerte no está en ganar la lotería...</div>
+
+<!-- LA TRAGAMONEDAS -->
+<div class="maquina">
+  <div class="pantalla-slots">
+    <div class="slot" id="slot1"><div class="slot-inner">❓</div></div>
+    <div class="slot" id="slot2"><div class="slot-inner">❓</div></div>
+    <div class="slot" id="slot3"><div class="slot-inner">❓</div></div>
+  </div>
+  <button class="btn-jugar" id="btnTirar" onclick="tirarPalanca()">¡Probar mi suerte!</button>
+</div>
+
+<!-- EL PREMIO (Mensaje Oculto) -->
+<!-- EL PREMIO (Mensaje Oculto) -->
+<div class="premio-container" id="mensajePremio">
+  <h2>¡Juntos es el Premio Mayor! ✈️❤️</h2>
+
+  <!-- REPRODUCTOR DE MÚSICA AQUÍ -->
+  <div style="margin-bottom: 20px;">
+    <audio controls id="audioPremio">
+      <source src="cns/MiSuerte_Morat.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <p>Mi amor,</p>
+  <p>Conocerte aquel 28 de agosto a través de una pantalla fue el mejor golpe de suerte que me pudo dar la vida. A veces la distancia duele, pero tenerte en mi vida vale cada kilómetro que nos separa.</p>
+  <p>Hoy en nuestra galería solo puedo poner estas fotos hermosas tuyas sola, viéndote brillar de lejos. Pero te juro que mi sueño más grande, mi verdadero <b>Jackpot</b>, será el día en que pueda tomar mi maleta, viajar, abrazarte muy fuerte y tomarnos por fin nuestra primera foto juntos.</p>
+  <p>Feliz séptimo mes. Te amo con todo mi ser, mi niña hermosa.</p>
+</div>
+
+<!-- LAS FOTOS DE ELLA -->
+<div class="galeria-ella" style="display:none;" id="galeriaFotos">
+  <div class="foto-ella">
+    <!-- Cambia img/Ella1.jpg por el nombre de la foto de Leslie -->
+    <img src="img/LesIdilio.jpg" alt="Leslie">
+    <p>Mi chica hermosa 😍</p>
+  </div>
+  <div class="foto-ella">
+    <img src="img/LesMeVoyEnamorando.jpg" alt="Leslie">
+    <p>Esa sonrisa me mata ❤️</p>
+  </div>
+  <div class="foto-ella">
+    <img src="img/LesTeEncontre.jpg" alt="Leslie">
+    <p>Pronto te abrazaré ✈️</p>
+  </div>
+</div>
+
+<a href="index.html" class="btn-volver">⬅ Volver a nuestro lugar</a>
+
+<script>
+  const emojis = ["🍀", "💖", "✈️", "👧🏻", "👦🏻", "💍", "🎶"];
+  let jugando = false;
+
+  function tirarPalanca() {
+    if (jugando) return;
+    jugando = true;
+
+    const btn = document.getElementById('btnTirar');
+    btn.disabled = true;
+    btn.innerText = "Girando...";
+
+    // Seleccionamos los interiores de los slots
+    const slot1 = document.getElementById('slot1').querySelector('.slot-inner');
+    const slot2 = document.getElementById('slot2').querySelector('.slot-inner');
+    const slot3 = document.getElementById('slot3').querySelector('.slot-inner');
+
+    // Función para simular el giro rápido
+    let intervalos = [];
+    [slot1, slot2, slot3].forEach((slot, index) => {
+      let interval = setInterval(() => {
+        slot.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+      }, 50 + (index * 20)); // Velocidades distintas
+      intervalos.push(interval);
+    });
+
+    // Detener los slots uno por uno y forzar el resultado "Premio Mayor"
+    setTimeout(() => {
+      clearInterval(intervalos[0]);
+      slot1.innerText = "👧🏻"; // Ella
+    }, 1500);
+
+    setTimeout(() => {
+      clearInterval(intervalos[1]);
+      slot2.innerText = "✈️"; // El viaje/encuentro
+    }, 2500);
+
+    setTimeout(() => {
+      clearInterval(intervalos[2]);
+      slot3.innerText = "👦🏻"; // Tú
+
+      // ¡GANÓ! Mostramos la sorpresa
+      btn.innerText = "¡PREMIO MAYOR!";
+      btn.style.background = "#d81b60";
+      btn.style.color = "white";
+
+      mostrarSorpresa();
+    }, 3500);
+  }
+
+  function mostrarSorpresa() {
+    // Mostrar el mensaje y las fotos
+    document.getElementById('mensajePremio').style.display = 'block';
+    document.getElementById('galeriaFotos').style.display = 'flex';
+    document.getElementById('audioPremio').play();
+    // Lanzar confeti de celebración
+    crearConfeti();
+  }
+
+  function crearConfeti() {
+    const colores = ["#ffd700", "#ff69b4", "#00ffff", "#ff4500"];
+    for (let i = 0; i < 50; i++) {
+      let confeti = document.createElement('div');
+      confeti.classList.add('confeti');
+      confeti.style.left = Math.random() * 100 + 'vw';
+      confeti.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+      confeti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+      confeti.style.opacity = Math.random();
+      document.body.appendChild(confeti);
+
+      // Limpiar el confeti después de unos segundos
+      setTimeout(() => {
+        confeti.remove();
+      }, 5000);
+    }
+  }
+</script>
+</body>
+</html>

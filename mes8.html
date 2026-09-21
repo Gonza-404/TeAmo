@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Hilo Rojo - Mes 8</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #0d0d12; /* Fondo oscuro y elegante */
+      color: #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-family: 'Pacifico', cursive;
+      color: #ff3366; /* Rojo brillante */
+      font-size: 3em;
+      margin-top: 40px;
+      margin-bottom: 5px;
+      text-align: center;
+      text-shadow: 0 0 15px rgba(255, 51, 102, 0.4);
+    }
+
+    .subtitulo {
+      font-size: 1.1em;
+      color: #b0b0b0;
+      margin-bottom: 40px;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    /* --- REPRODUCTOR DE MÚSICA --- */
+    .reproductor {
+      background: rgba(255, 51, 102, 0.1);
+      padding: 15px 30px;
+      border-radius: 30px;
+      border: 1px solid #ff3366;
+      box-shadow: 0 0 20px rgba(255, 51, 102, 0.2);
+      margin-bottom: 50px;
+      text-align: center;
+      z-index: 10;
+    }
+
+    .reproductor p {
+      margin: 0 0 10px 0;
+      font-weight: bold;
+      color: #ff3366;
+    }
+
+    audio {
+      height: 35px;
+      outline: none;
+    }
+
+    /* --- LÍNEA DE TIEMPO DEL HILO ROJO --- */
+    .timeline {
+      position: relative;
+      width: 90%;
+      max-width: 800px;
+      padding: 20px 0;
+      margin-bottom: 50px;
+    }
+
+    /* El Hilo Rojo (Línea central) */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 100%;
+      background: #ff3366;
+      box-shadow: 0 0 10px #ff3366, 0 0 20px #ff3366;
+      border-radius: 2px;
+      z-index: 1;
+    }
+
+    .evento {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 60px;
+      position: relative;
+      width: 100%;
+      z-index: 2;
+    }
+
+    /* Intercalar izquierda y derecha */
+    .evento:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    /* El nodo del hilo rojo (nudo) */
+    .nodo {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 24px;
+      height: 24px;
+      background: #0d0d12;
+      border: 4px solid #ff3366;
+      border-radius: 50%;
+      box-shadow: 0 0 15px #ff3366;
+      z-index: 3;
+    }
+
+    .contenido {
+      width: 42%;
+      background: rgba(30, 30, 40, 0.8);
+      padding: 20px;
+      border-radius: 15px;
+      border: 1px solid rgba(255, 51, 102, 0.3);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .contenido:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(255, 51, 102, 0.3);
+      border-color: #ff3366;
+    }
+
+    .fecha {
+      font-family: 'Pacifico', cursive;
+      color: #ff3366;
+      font-size: 1.3em;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .texto {
+      font-size: 0.95em;
+      line-height: 1.6;
+      color: #d0d0d0;
+    }
+
+    /* --- EL SUEÑO FINAL (CARTA) --- */
+    .carta-final {
+      background: #1a1a24;
+      width: 85%;
+      max-width: 600px;
+      padding: 40px;
+      border-radius: 15px;
+      border-top: 5px solid #ff3366;
+      text-align: center;
+      margin-bottom: 50px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      position: relative;
+      z-index: 2;
+    }
+
+    .carta-final p {
+      font-size: 1.1em;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .avion-icono {
+      font-size: 3em;
+      margin-bottom: 15px;
+      animation: flotar 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes flotar {
+      from { transform: translateY(0); }
+      to { transform: translateY(-10px); }
+    }
+
+    /* --- BOTÓN DE REGRESO --- */
+    .btn-volver {
+      margin-bottom: 50px;
+      padding: 12px 35px;
+      background: transparent;
+      color: #ff3366;
+      text-decoration: none;
+      border: 2px solid #ff3366;
+      border-radius: 30px;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+
+    .btn-volver:hover {
+      background: #ff3366;
+      color: white;
+      box-shadow: 0 0 20px rgba(255, 51, 102, 0.6);
+    }
+
+    /* Adaptación para celulares */
+    @media (max-width: 768px) {
+      .timeline::before { left: 30px; }
+      .evento, .evento:nth-child(even) { flex-direction: column; align-items: flex-end; }
+      .nodo { left: 30px; }
+      .contenido { width: 75%; margin-bottom: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<h1>El Hilo Rojo</h1>
+<div class="subtitulo">2 años desde que nos cruzamos, 8 meses desde que nos elegimos.</div>
+
+<!-- REPRODUCTOR -->
+<div class="reproductor">
+  <p>Grupo Niche - Nuestro Sueño 🎵</p>
+  <audio controls>
+    <source src="cns/NuestroSueño_GrupoNiche.mp3" type="audio/mpeg">
+  </audio>
+</div>
+
+<!-- LÍNEA DE TIEMPO -->
+<div class="timeline">
+
+  <!-- Parada 1: Cuando se conocieron -->
+  <div class="evento">
+    <div class="nodo"></div>
+    <div class="contenido">
+      <span class="fecha">28 de Agosto, 2024</span>
+      <div class="texto">
+        El día que la vida decidió cruzar nuestros caminos. Hace exactamente dos años empezó esta historia.
+        Fuiste la casualidad más hermosa porque te conocí cuando no estaba buscando el amor, pero este fue el principio de un hilo que empezaba a unirse a kilómetros de distancia.
+      </div>
+    </div>
+    <div style="width: 42%;"></div> <!-- Espaciador invisible -->
+  </div>
+
+  <!-- Parada 2: Cuando se hicieron novios -->
+  <div class="evento">
+    <div class="nodo"></div>
+    <div class="contenido">
+      <span class="fecha">28 de Diciembre, 2025</span>
+      <div class="texto">
+        El día en que decidimos entrelazar ese hilo por completo.
+        Nos elegimos como enamorados y comenzamos esta aventura oficial. Hoy celebramos 8 meses de ese gran "Sí".
+        Cada que lo recuerdo me emociono porque bueno de los mejores dias de mi vida directamente.
+      </div>
+    </div>
+    <div style="width: 42%;"></div>
+  </div>
+
+  <!-- Parada 3: Hoy -->
+  <div class="evento">
+    <div class="nodo"></div>
+    <div class="contenido">
+      <span class="fecha">Hoy y Siempre</span>
+      <div class="texto">
+        A pesar de las discusiones, de la distancia y de los días difíciles,
+        mi amor por ti sigue intacto. Dos años conociendo a la mejor persona del mundo, mi Doña Enojona, Leslie ❤️.
+      </div>
+    </div>
+    <div style="width: 42%;"></div>
+  </div>
+
+</div>
+
+<!-- EL SUEÑO / FUTURO -->
+<div class="carta-final">
+  <div class="avion-icono">✈️❤️</div>
+  <p>Mi amor,</p>
+  <p>Dicen que el hilo rojo del destino puede estirarse o enredarse, pero nunca romperse.
+    No importa que no nos hayamos podido ver en persona todavía, porque sé que este hilo nos mantiene unidos.</p>
+  <p>Agradezco estos 8 meses a tu lado y estos 2 años de conocerte
+    con la certeza de que mi meta más grande sigue siendo tomar ese avión, acortar la distancia
+    y darte el abrazo y el beso que llevamos guardando todo este tiempo.</p>
+  <p style="font-family: 'Pacifico', cursive; color: #ff3366; font-size: 1.4em; margin-top: 30px;">
+    Feliz Aniversario.<br>Te ama, Sergio.
+  </p>
+</div>
+
+<a href="index.html" class="btn-volver">⬅ Volver a nuestro menú</a>
+
+</body>
+</html>
